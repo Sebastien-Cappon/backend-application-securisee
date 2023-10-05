@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class BidList {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "BidListId")
 	Integer bidListId;
 	@Column(name = "account")

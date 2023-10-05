@@ -13,7 +13,7 @@ import jakarta.persistence.Table;
 @Table(name = "trade")
 public class Trade {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "TradeId")
 	Integer tradeId;
 	@Column(name = "account")

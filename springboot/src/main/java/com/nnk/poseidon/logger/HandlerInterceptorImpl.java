@@ -73,6 +73,9 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
 			case 204:
 				logger.info("Response : Status {} No Content - The request is fine, the response is empty.", responseStatus);
 				break;
+			case 302:
+				logger.info("Response : Status {} Found - Temporary redirection performed.", responseStatus);
+				break;
 			case 400:
 				logger.error(
 						"Response : Status {} Bad Request - The request is wrong. Please check the body and the parameters.", responseStatus);
@@ -86,7 +89,7 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
 						"Response : Status {} Internal Server Error - Server side problem, the request is probably fine.", responseStatus);
 				break;
 			default:
-				logger.error("Status unknown");
+				logger.error("Status {} is unknown.", responseStatus);
 			}
 		}
 	}

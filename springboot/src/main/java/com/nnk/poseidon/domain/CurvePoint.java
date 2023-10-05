@@ -14,7 +14,7 @@ import jakarta.persistence.Table;
 public class CurvePoint {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	Integer id;
 	@Column(name = "CurveId")

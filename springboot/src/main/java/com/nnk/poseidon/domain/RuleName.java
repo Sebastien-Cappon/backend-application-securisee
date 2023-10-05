@@ -11,7 +11,7 @@ import jakarta.persistence.Table;
 @Table(name = "rulename")
 public class RuleName {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	Integer id;
 	@Column(name = "name")

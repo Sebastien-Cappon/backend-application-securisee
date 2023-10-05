@@ -5,6 +5,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import com.nnk.poseidon.domain.Trade;
 
 
-public interface TradeRepository extends JpaRepository<Trade, Integer> {
+public interface ITradeRepository extends JpaRepository<Trade, Integer> {
 
 }

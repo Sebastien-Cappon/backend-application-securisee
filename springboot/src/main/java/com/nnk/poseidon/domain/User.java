@@ -12,7 +12,7 @@ import jakarta.validation.constraints.NotBlank;
 @Table(name = "users")
 public class User {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "Id")
 	private Integer id;
 	@NotBlank(message = "Username is mandatory")

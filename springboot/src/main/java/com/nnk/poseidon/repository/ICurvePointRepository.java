@@ -4,7 +4,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.nnk.poseidon.domain.CurvePoint;
 
-
-public interface CurvePointRepository extends JpaRepository<CurvePoint, Integer> {
+public interface ICurvePointRepository extends JpaRepository<CurvePoint, Integer> {
 
 }

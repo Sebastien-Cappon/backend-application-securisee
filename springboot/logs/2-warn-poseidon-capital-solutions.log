@@ -1,6 +1,6 @@
-[2023-10-04 07:00:29][WARN ] UserDetailsServiceAutoConfiguration : 
+[2023-10-05 09:39:12][WARN ] UserDetailsServiceAutoConfiguration : 
 
-Using generated security password: 7fe82054-7fe3-4e36-b853-7053738d5a7b
+Using generated security password: d5f1dd05-fd0d-4256-8bdc-6022713f176c
 
 This generated password is for development use only. Your security configuration must be updated before running your application in production.
 
