@@ -7,4 +7,5 @@ import com.nnk.poseidon.domain.User;
 
 public interface IUserRepository extends JpaRepository<User, Integer>, JpaSpecificationExecutor<User> {
 
+	public User findByUsername(String username);
 }

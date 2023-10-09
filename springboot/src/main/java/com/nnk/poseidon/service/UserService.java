@@ -5,12 +5,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.nnk.poseidon.domain.User;
 import com.nnk.poseidon.repository.IUserRepository;
-
-import jakarta.validation.Valid;
 
 @Service
 public class UserService implements IUserService {
@@ -29,9 +26,9 @@ public class UserService implements IUserService {
     public String addUser(User bid) {
         return "user/add";
     }
-
+	
 	@Override
-    public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
+    public String showUpdateForm(Integer id, Model model) {
         User user = iUserRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         user.setPassword("");
         model.addAttribute("user", user);
@@ -39,7 +36,7 @@ public class UserService implements IUserService {
     }
     
 	@Override
-    public String validate(@Valid User user, BindingResult result, Model model) {
+    public String validate(User user, BindingResult result, Model model) {
         if (!result.hasErrors()) {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             user.setPassword(encoder.encode(user.getPassword()));
@@ -51,8 +48,7 @@ public class UserService implements IUserService {
     }
 
 	@Override
-    public String updateUser(@PathVariable("id") Integer id, @Valid User user,
-                             BindingResult result, Model model) {
+    public String updateUser(Integer id, User user, BindingResult result, Model model) {
         if (result.hasErrors()) {
             return "user/update";
         }
@@ -66,7 +62,7 @@ public class UserService implements IUserService {
     }
 
 	@Override
-    public String deleteUser(@PathVariable("id") Integer id, Model model) {
+    public String deleteUser(Integer id, Model model) {
         User user = iUserRepository.findById(id).orElseThrow(() -> new IllegalArgumentException("Invalid user Id:" + id));
         iUserRepository.delete(user);
         model.addAttribute("users", iUserRepository.findAll());

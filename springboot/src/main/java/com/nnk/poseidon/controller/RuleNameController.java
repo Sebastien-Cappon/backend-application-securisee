@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nnk.poseidon.domain.RuleName;
 import com.nnk.poseidon.service.IRuleNameService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
 @Controller
@@ -20,6 +22,11 @@ public class RuleNameController {
 	@Autowired
 	IRuleNameService iRuleNameService;
 
+	@ModelAttribute("remoteUser")
+	public Object remoteUser(final HttpServletRequest httpServletRequest) {
+	    return httpServletRequest.getRemoteUser();
+	}
+	
 	@RequestMapping("/ruleName/list")
 	public String home(Model model) {
 		return iRuleNameService.home(model);
