@@ -58,9 +58,9 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
 	 * @return <code>void</code>
 	 */
 	@Override
-	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler,
-			@Nullable Exception exception) throws Exception {
+	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, @Nullable Exception exception) throws Exception {
 		int responseStatus = response.getStatus();
+		String requestURL = java.net.URLDecoder.decode(request.getRequestURL().toString(), StandardCharsets.UTF_8);
 
 		if (!UriToIgnore.uriToIgnore.contains(request.getRequestURI())) {
 			switch (responseStatus) {
@@ -82,7 +82,7 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
 				break;
 			case 404:
 				logger.error(
-						"Response : Status {} Not Found - The request is wrong. Please check the URL, not the parameters or variables.", responseStatus);
+						"Response : Status {} Not Found - The request : {} ; is wrong. Please check the URL, not the parameters or variables.", responseStatus, requestURL);
 				break;
 			case 500:
 				logger.error(

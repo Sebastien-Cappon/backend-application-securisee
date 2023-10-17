@@ -2,12 +2,12 @@ package com.nnk.poseidon.domain;
 
 import java.sql.Timestamp;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "curvepoint")
@@ -15,18 +15,15 @@ public class CurvePoint {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	Integer id;
-	@Column(name = "CurveId")
-	Integer curveId;
-	@Column(name = "asOfDate")
-	Timestamp asOfDate;
-	@Column(name = "term")
-	Double term;
-	@Column(name = "value")
-	Double value;
-	@Column(name = "creationDate")
-	Timestamp creationDate;
+	private Integer id;
+	@NotNull(message = "CurveId is mandatory")
+	private Integer curveId;
+	private Timestamp asOfDate;
+	@NotNull(message = "Term is mandatory")
+	private Double term;
+	@NotNull(message = "Value is mandatory")
+	private Double value;
+	private Timestamp creationDate;
 
 	public Integer getId() {
 		return id;

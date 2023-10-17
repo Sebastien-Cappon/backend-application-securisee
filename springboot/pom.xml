@@ -12,7 +12,7 @@
 	
 	<groupId>com.nnk</groupId>
 	<artifactId>poseidon</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>poseidon</name>
 	<description>OpenClassrooms P7 : Poseidon Capital Solutions - An application using Spring Security</description>
 	

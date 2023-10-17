@@ -18,7 +18,7 @@ public class DomainsTests {
 
 	@Test
 	public void bidListToString_isNotBlank() {
-		BidList bidList = DomainObjectBuilders.createBidList(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark",
+		Bid bidList = DomainObjectBuilders.createBid(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark",
 				timeStampTest, "Commentary", "Security", "Status", "Trader", "Book", "Creation name", timeStampTest,
 				"Revision name", timeStampTest, "Deal name", "Deal type", "Source list id", "Side");
 		assertThat(bidList.toString()).isNotBlank();

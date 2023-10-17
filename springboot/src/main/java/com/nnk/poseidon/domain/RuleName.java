@@ -1,31 +1,30 @@
 package com.nnk.poseidon.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "rulename")
 public class RuleName {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	Integer id;
-	@Column(name = "name")
-	String name;
-	@Column(name = "description")
-	String description;
-	@Column(name = "json")
-	String json;
-	@Column(name = "template")
-	String template;
-	@Column(name = "sqlStr")
-	String sqlStr;
-	@Column(name = "sqlPart")
-	String sqlPart;
+	private Integer id;
+	@NotBlank(message = "Name is mandatory")
+	private String name;
+	@NotBlank(message = "Descrition is mandatory")
+	private String description;
+	@NotBlank(message = "JSON is mandatory")
+	private String json;
+	@NotBlank(message = "Template is mandatory")
+	private String template;
+	@NotBlank(message = "SQL is mandatory")
+	private String sqlStr;
+	@NotBlank(message = "SQL Part is mandatory")
+	private String sqlPart;
 
 	public Integer getId() {
 		return id;

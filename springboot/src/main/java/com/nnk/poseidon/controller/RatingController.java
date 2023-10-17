@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.poseidon.domain.Rating;
 import com.nnk.poseidon.service.IRatingService;
@@ -27,34 +26,50 @@ public class RatingController {
 	    return httpServletRequest.getRemoteUser();
 	}
 	
-	@RequestMapping("/rating/list")
-	public String home(Model model) {
-		return iRatingService.home(model);
+	@GetMapping("/rating/list")
+	public String get_ratingListPage(Model model) {
+		model.addAttribute("ratings", iRatingService.getRatingList());
+		return "rating/list";
 	}
 
 	@GetMapping("/rating/add")
-	public String addRatingForm(Rating rating) {
-		return iRatingService.addRatingForm(rating);
+	public String get_ratingAddForm(Rating rating) {
+		return "rating/add";
 	}
 
 	@GetMapping("/rating/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		return iRatingService.showUpdateForm(id, model);
+	public String get_ratingUpdateForm(@PathVariable("id") Integer id, Model model) {
+		Rating rating = iRatingService.getRatingById(id);
+		
+		model.addAttribute("rating", rating);
+		return "rating/update";
 	}
 
 	@PostMapping("/rating/validate")
-	public String validate(@Valid Rating rating, BindingResult result, Model model) {
-		return iRatingService.validate(rating, result, model);
+	public String postRating_fromRatingAddForm(@Valid Rating rating, BindingResult result) {
+		if (!result.hasErrors()) {
+			iRatingService.addOrUpdateRating(rating);
+			return "redirect:/rating/list";
+		}
+
+		return "rating/add";
 	}
 
 	@PostMapping("/rating/update/{id}")
-	public String updateRating(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result,
-			Model model) {
-		return iRatingService.updateRating(id, rating, result, model);
+	public String postRating_fromRatingUpdateForm(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
+		if (!result.hasErrors()) {
+			rating.setId(id);
+			iRatingService.addOrUpdateRating(rating);
+
+			return "redirect:/rating/list";
+		}
+		
+		return "rating/update";
 	}
 
 	@GetMapping("/rating/delete/{id}")
-	public String deleteRating(@PathVariable("id") Integer id, Model model) {
-		return iRatingService.deleteRating(id, model);
+	public String deleteRating_fromRatingListPage(@PathVariable("id") Integer id) {
+		iRatingService.deleteRatingById(id);
+		return "redirect:/rating/list";
 	}
 }

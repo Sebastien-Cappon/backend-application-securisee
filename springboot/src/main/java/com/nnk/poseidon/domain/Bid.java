@@ -8,64 +8,48 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "bidlist")
-public class BidList {
+public class Bid {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "BidListId")
-	Integer bidListId;
-	@Column(name = "account")
-	String account;
-	@Column(name = "type")
-	String type;
-	@Column(name = "bidQuantity")
-	Double bidQuantity;
-	@Column(name = "askQuantity")
-	Double askQuantity;
-	@Column(name = "bid")
-	Double bid;
-	@Column(name = "ask")
-	Double ask;
-	@Column(name = "benchmark")
-	String benchmark;
-	@Column(name = "bidListDate")
-	Timestamp bidListDate;
-	@Column(name = "commentary")
-	String commentary;
-	@Column(name = "security")
-	String security;
-	@Column(name = "status")
-	String status;
-	@Column(name = "trader")
-	String trader;
-	@Column(name = "book")
-	String book;
-	@Column(name = "creationName")
-	String creationName;
-	@Column(name = "creationDate")
-	Timestamp creationDate;
-	@Column(name = "revisionName")
-	String revisionName;
-	@Column(name = "revisionDate")
-	Timestamp revisionDate;
-	@Column(name = "dealName")
-	String dealName;
-	@Column(name = "dealType")
-	String dealType;
-	@Column(name = "sourceListId")
-	String sourceListId;
-	@Column(name = "side")
-	String side;
+	@Column(name = "bidListId")
+	private Integer id;
+	@NotBlank(message = "Account is mandatory")
+	private String account;
+	@NotBlank(message = "Type is mandatory")
+	private String type;
+	@NotNull(message = "Quantity is mandatory")
+	private Double bidQuantity;
+	private Double askQuantity;
+	private Double bid;
+	private Double ask;
+	private String benchmark;
+	private Timestamp bidListDate;
+	private String commentary;
+	private String security;
+	private String status;
+	private String trader;
+	private String book;
+	private String creationName;
+	private Timestamp creationDate;
+	private String revisionName;
+	private Timestamp revisionDate;
+	private String dealName;
+	private String dealType;
+	private String sourceListId;
+	private String side;
 
-	public Integer getBidListId() {
-		return bidListId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setBidListId(Integer bidListId) {
-		this.bidListId = bidListId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getAccount() {
@@ -238,7 +222,7 @@ public class BidList {
 
 	@Override
 	public String toString() {
-		return "[" + bidListId + "]" + "[" + account + "]" + "[" + type + "]" + "[" + bidQuantity + "]" + "["
+		return "[" + id + "]" + "[" + account + "]" + "[" + type + "]" + "[" + bidQuantity + "]" + "["
 				+ askQuantity + "]" + "[" + bid + "]" + "[" + ask + "]" + "[" + benchmark + "]" + "[" + bidListDate
 				+ "]" + "[" + commentary + "]" + "[" + security + "]" + "[" + status + "]" + "[" + trader + "]" + "["
 				+ book + "]" + "[" + creationName + "]" + "[" + creationDate + "]" + "[" + revisionName + "]" + "["

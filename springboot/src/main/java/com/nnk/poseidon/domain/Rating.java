@@ -1,27 +1,27 @@
 package com.nnk.poseidon.domain;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "rating")
 public class Rating {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "Id")
-	Integer id;
-	@Column(name = "moodysRating")
-	String moodysRating;
-	@Column(name = "sandPRating")
-	String sandPRating;
-	@Column(name = "fitchRating")
-	String fitchRating;
-	@Column(name = "orderNumber")
-	Integer orderNumber;
+	private Integer id;
+	@NotBlank(message = "Moodys is mandatory")
+	private String moodysRating;
+	@NotBlank(message = "SandP is mandatory")
+	private String sandPRating;
+	@NotBlank(message = "Fitch is mandatory")
+	private String fitchRating;
+	@NotNull(message = "Order is mandatory")
+	private Integer orderNumber;
 
 	public Integer getId() {
 		return id;

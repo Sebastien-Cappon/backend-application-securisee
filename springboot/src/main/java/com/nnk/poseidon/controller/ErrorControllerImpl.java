@@ -4,6 +4,7 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.http.HttpServletRequest;
@@ -20,6 +21,11 @@ import jakarta.servlet.http.HttpServletRequest;
 @Controller
 public class ErrorControllerImpl implements ErrorController {
 
+	@ModelAttribute("remoteUser")
+	public Object remoteUser(final HttpServletRequest httpServletRequest) {
+	    return httpServletRequest.getRemoteUser();
+	}
+	
 	/**
 	 * A <code>GetMapping</code> method on <code>/error</code> URI which looks at
 	 * the <code>ERROR_STATUS_CODE</code> attribute in order to redirect to the

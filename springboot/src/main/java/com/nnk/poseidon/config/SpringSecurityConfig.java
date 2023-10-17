@@ -45,12 +45,11 @@ public class SpringSecurityConfig {
 	public SecurityFilterChain filterChain(HttpSecurity httpSecurity, MvcRequestMatcher.Builder mvcRequestMatcher) throws Exception {
 		return httpSecurity.authorizeHttpRequests(auth -> auth
 				.requestMatchers(mvcRequestMatcher.pattern("/css/**")).permitAll()
-				.requestMatchers(mvcRequestMatcher.pattern("/user/add")).hasRole("ADMIN")
-				.requestMatchers(mvcRequestMatcher.pattern("/user/update")).hasRole("ADMIN")
+				.requestMatchers(mvcRequestMatcher.pattern("/user/**")).hasRole("ADMIN")
 				.anyRequest().authenticated()
 			)
 			.formLogin(formLogin -> formLogin
-				.defaultSuccessUrl("/bidList/list")
+				.defaultSuccessUrl("/bid/list")
 				.permitAll()
 			)
 			.logout(logout -> logout

@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.nnk.poseidon.domain.CurvePoint;
 import com.nnk.poseidon.service.ICurvePointService;
@@ -27,33 +26,50 @@ public class CurvePointController {
 	    return request.getRemoteUser();
 	}
 	
-	@RequestMapping("/curvePoint/list")
-	public String home(Model model) {
-		return iCurvePointService.home(model);
+	@GetMapping("/curvePoint/list")
+	public String get_curvePointListPage(Model model) {
+		model.addAttribute("curvePoints", iCurvePointService.getCurvePointList());
+		return "curvePoint/list";
 	}
 
 	@GetMapping("/curvePoint/add")
-	public String addBidForm(CurvePoint bid) {
-		return iCurvePointService.addBidForm(bid);
+	public String get_curvePointAddForm(CurvePoint curvePoint) {
+		return "curvePoint/add";
 	}
 
 	@GetMapping("/curvePoint/update/{id}")
-	public String showUpdateForm(@PathVariable("id") Integer id, Model model) {
-		return iCurvePointService.showUpdateForm(id, model);
+	public String get_curvePointUpdateForm(@PathVariable("id") Integer id, Model model) {
+		CurvePoint curvePoint = iCurvePointService.getCurvePointById(id);
+		
+		model.addAttribute("curvePoint", curvePoint);
+		return "curvePoint/update";
 	}
 	
 	@PostMapping("/curvePoint/validate")
-	public String validate(@Valid CurvePoint curvePoint, BindingResult result, Model model) {
-		return iCurvePointService.validate(curvePoint, result, model);
+	public String postCurvePoint_fromCurvePointAddForm(@Valid CurvePoint curvePoint, BindingResult result) {
+		if (!result.hasErrors()) {
+			iCurvePointService.addOrUpdateCurvePoint(curvePoint);
+			return "redirect:/curvePoint/list";
+		}
+
+		return "curvePoint/add";
 	}
 
 	@PostMapping("/curvePoint/update/{id}")
-	public String updateBid(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result, Model model) {
-		return iCurvePointService.updateBid(id, curvePoint, result, model);
+	public String postCurvePoint_fromCurvePointUpdateForm(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
+		if (!result.hasErrors()) {
+			curvePoint.setId(id);
+			iCurvePointService.addOrUpdateCurvePoint(curvePoint);
+
+			return "redirect:/curvePoint/list";
+		}
+		
+		return "curvePoint/update";
 	}
 
 	@GetMapping("/curvePoint/delete/{id}")
-	public String deleteBid(@PathVariable("id") Integer id, Model model) {
-		return iCurvePointService.deleteBid(id, model);
+	public String deleteCurvePoint_fromCurvePointListPage(@PathVariable("id") Integer id) {
+		iCurvePointService.deleteCurvePointById(id);
+		return "redirect:/curvePoint/list";
 	}
 }

@@ -2,7 +2,7 @@ package com.nnk.poseidon.util;
 
 import java.sql.Timestamp;
 
-import com.nnk.poseidon.domain.BidList;
+import com.nnk.poseidon.domain.Bid;
 import com.nnk.poseidon.domain.CurvePoint;
 import com.nnk.poseidon.domain.Rating;
 import com.nnk.poseidon.domain.RuleName;
@@ -11,13 +11,13 @@ import com.nnk.poseidon.domain.User;
 
 public class DomainObjectBuilders {
 
-	public static BidList createBidList(Integer bidListId, String account, String type, Double bidQuantity,
+	public static Bid createBid(Integer id, String account, String type, Double bidQuantity,
 			Double askQuantity, Double bid, Double ask, String benchmark, Timestamp bidListDate, String commentary,
 			String security, String status, String trader, String book, String creationName, Timestamp creationDate,
 			String revisionName, Timestamp revisionDate, String dealName, String dealType, String sourceListId,
 			String side) {
-		BidList bidList = new BidList();
-		bidList.setBidListId(bidListId);
+		Bid bidList = new Bid();
+		bidList.setId(id);
 		bidList.setAccount(account);
 		bidList.setType(type);
 		bidList.setBidQuantity(bidQuantity);
@@ -85,7 +85,7 @@ public class DomainObjectBuilders {
 			String revisionName, Timestamp revisionDate, String dealName, String dealType, String sourceListId,
 			String side) {
 		Trade trade = new Trade();
-		trade.setTradeId(tradeId);
+		trade.setId(tradeId);
 		trade.setAccount(account);
 		trade.setType(type);
 		trade.setBuyQuantity(buyQuantity);

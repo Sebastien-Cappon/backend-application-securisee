@@ -1,18 +1,15 @@
 package com.nnk.poseidon.service;
 
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import java.util.List;
 
 import com.nnk.poseidon.domain.Trade;
 
 public interface ITradeService {
 
-	public String home(Model model);
-	public String addUser(Trade bid);
-	public String showUpdateForm(Integer id, Model model);
-
-	public String validate(Trade trade, BindingResult result, Model model);
-	public String updateTrade(Integer id, Trade trade, BindingResult result, Model model);
-
-	public String deleteTrade(Integer id, Model model);
+	public List<Trade> getTradeList();
+	public Trade getTradeById(Integer id);
+	
+	public Trade addOrUpdateTrade(Trade trade);
+	
+	public void deleteTradeById(Integer id);
 }

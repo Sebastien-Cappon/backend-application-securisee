@@ -16,8 +16,12 @@ import java.util.List;
  */
 public class UriToIgnore {
 	public static final String errorURI = "/error";
+	public static final String faviconURI = "/favicon.ico";
+	public static final String cssURI = "/css/bootstrap.min.css.map";
 
 	public static final List<String> uriToIgnore = new ArrayList<>(Arrays.asList(
-		errorURI
+		errorURI,
+		faviconURI,
+		cssURI
 	));
 }

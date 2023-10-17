@@ -8,61 +8,47 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "trade")
 public class Trade {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "TradeId")
-	Integer tradeId;
-	@Column(name = "account")
-	String account;
-	@Column(name = "type")
-	String type;
-	@Column(name = "buyQuantity")
-	Double buyQuantity;
-	@Column(name = "sellQuantity")
-	Double sellQuantity;
-	@Column(name = "buyPrice")
-	Double buyPrice;
-	@Column(name = "sellPrice")
-	Double sellPrice;
-	@Column(name = "benchmark")
-	String benchmark;
-	@Column(name = "tradeDate")
-	Timestamp tradeDate;
-	@Column(name = "security")
-	String security;
-	@Column(name = "status")
-	String status;
-	@Column(name = "trader")
-	String trader;
-	@Column(name = "book")
-	String book;
-	@Column(name = "creationName")
-	String creationName;
-	@Column(name = "creationDate")
-	Timestamp creationDate;
-	@Column(name = "revisionName")
-	String revisionName;
-	@Column(name = "revisionDate")
-	Timestamp revisionDate;
-	@Column(name = "dealName")
-	String dealName;
-	@Column(name = "dealType")
-	String dealType;
-	@Column(name = "sourceListId")
-	String sourceListId;
-	@Column(name = "side")
-	String side;
+	@Column(name = "tradeId")
+	private Integer id;
+	@NotBlank(message = "Account is mandatory")
+	private String account;
+	@NotBlank(message = "Type is mandatory")
+	private String type;
+	@NotNull(message = "Quantity is mandatory")
+	private Double buyQuantity;
+	private Double sellQuantity;
+	private Double buyPrice;
+	private Double sellPrice;
+	private String benchmark;
+	private Timestamp tradeDate;
+	private String security;
+	private String status;
+	private String trader;
+	private String book;
+	private String creationName;
+	private Timestamp creationDate;
+	private String revisionName;
+	private Timestamp revisionDate;
+	private String dealName;
+	private String dealType;
+	private String sourceListId;
+	private String side;
 
-	public Integer getTradeId() {
-		return tradeId;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setTradeId(Integer tradeId) {
-		this.tradeId = tradeId;
+	public void setId(Integer id) {
+		this.id = id;
 	}
 
 	public String getAccount() {
@@ -227,7 +213,7 @@ public class Trade {
 
 	@Override
 	public String toString() {
-		return "[" + tradeId + "]" + "[" + account + "]" + "[" + type + "]" + "[" + buyQuantity + "]" + "["
+		return "[" + id + "]" + "[" + account + "]" + "[" + type + "]" + "[" + buyQuantity + "]" + "["
 				+ sellQuantity + "]" + "[" + buyPrice + "]" + "[" + sellPrice + "]" + "[" + tradeDate + "]" + "["
 				+ security + "]" + "[" + status + "]" + "[" + trader + "]" + "[" + benchmark + "]" + "[" + book + "]"
 				+ "[" + creationName + "]" + "[" + creationDate + "]" + "[" + revisionName + "]" + "[" + revisionDate

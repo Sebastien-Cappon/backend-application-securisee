@@ -1,18 +1,15 @@
 package com.nnk.poseidon.service;
 
-import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
+import java.util.List;
 
 import com.nnk.poseidon.domain.User;
 
 public interface IUserService {
+	
+	public List<User> getUserList();
+	public User getUserById(Integer id);
 
-	public String home(Model model);
-	public String addUser(User bid);
-	public String showUpdateForm(Integer id, Model model);
+	public User addOrUpdateUser(User user);
 
-	public String validate(User user, BindingResult result, Model model);
-	public String updateUser(Integer id, User user, BindingResult result, Model model);
-
-	public String deleteUser(Integer id, Model model);
+	public void deleteUserById(Integer id);
 }
