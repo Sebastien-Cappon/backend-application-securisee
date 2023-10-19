@@ -21,13 +21,11 @@ public class TradeService implements ITradeService {
 
 	@Override
 	public Trade getTradeById(Integer id) {
-		Trade trade = iTradeRepository.findById(id).get();
-		
-		if(trade == null) {
-			throw new IllegalArgumentException("Invalid Trade Id:" + id);
+		if(iTradeRepository.findById(id).isPresent()) {
+			return iTradeRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return trade;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class TradeService implements ITradeService {
 	}
 
 	@Override
-	public void deleteTradeById(Integer id) {
-		Trade trade = iTradeRepository.findById(id).get();
-		
-		if(trade == null) {
-			throw new IllegalArgumentException("Invalid Trade Id:" + id);
+	public Integer deleteTradeById(Integer id) {
+		if(iTradeRepository.findById(id).isPresent()) {
+			iTradeRepository.delete(iTradeRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iTradeRepository.delete(trade);
 	}
 }

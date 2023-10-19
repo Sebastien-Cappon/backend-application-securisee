@@ -21,13 +21,11 @@ public class UserService implements IUserService {
 
 	@Override
 	public User getUserById(Integer id) {
-		User user = iUserRepository.findById(id).get();
-		
-		if (user == null) {
-			throw new IllegalArgumentException("Invalid User Id:" + id);
+		if(iUserRepository.findById(id).isPresent()) {
+			return iUserRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return user;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class UserService implements IUserService {
 	}
 
 	@Override
-	public void deleteUserById(Integer id) {
-		User user = iUserRepository.findById(id).get();
-		
-		if(user == null) {
-			throw new IllegalArgumentException("Invalid User Id:" + id);
+	public Integer deleteUserById(Integer id) {
+		if(iUserRepository.findById(id).isPresent()) {
+			iUserRepository.delete(iUserRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iUserRepository.delete(user);
 	}
 }

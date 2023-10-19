@@ -21,13 +21,11 @@ public class CurvePointService implements ICurvePointService {
 
 	@Override
 	public CurvePoint getCurvePointById(Integer id) {
-		CurvePoint curvePoint = iCurvePointRepository.findById(id).get();
-		
-		if(curvePoint == null) {
-			throw new IllegalArgumentException("Invalid CurvePoint Id:" + id);
+		if(iCurvePointRepository.findById(id).isPresent()) {
+			return iCurvePointRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return curvePoint;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class CurvePointService implements ICurvePointService {
 	}
 
 	@Override
-	public void deleteCurvePointById(Integer id) {
-		CurvePoint curvePoint = iCurvePointRepository.findById(id).get();
-		
-		if(curvePoint == null) {
-			throw new IllegalArgumentException("Invalid Bid Id:" + id);
+	public Integer deleteCurvePointById(Integer id) {
+		if(iCurvePointRepository.findById(id).isPresent()) {
+			iCurvePointRepository.delete(iCurvePointRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iCurvePointRepository.delete(curvePoint);
 	}
 }

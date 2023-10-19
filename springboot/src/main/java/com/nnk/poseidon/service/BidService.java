@@ -10,7 +10,7 @@ import com.nnk.poseidon.repository.IBidRepository;
 
 @Service
 public class BidService implements IBidService {
-
+	
 	@Autowired
 	IBidRepository iBidRepository;
 
@@ -21,13 +21,11 @@ public class BidService implements IBidService {
 
 	@Override
 	public Bid getBidById(Integer id) {
-		Bid bid = iBidRepository.findById(id).get();
-		
-		if(bid == null) {
-			throw new IllegalArgumentException("Invalid Bid Id:" + id);
+		if(iBidRepository.findById(id).isPresent()) {
+			return iBidRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return bid;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class BidService implements IBidService {
 	}
 
 	@Override
-	public void deleteBidById(Integer id) {
-		Bid bid = iBidRepository.findById(id).get();
-		
-		if(bid == null) {
-			throw new IllegalArgumentException("Invalid Bid Id:" + id);
+	public Integer deleteBidById(Integer id) {
+		if(iBidRepository.findById(id).isPresent()) {
+			iBidRepository.delete(iBidRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iBidRepository.delete(bid);
 	}
 }

@@ -21,13 +21,11 @@ public class RuleNameService implements IRuleNameService {
 
 	@Override
 	public RuleName getRuleNameById(Integer id) {
-		RuleName ruleName = iRuleNameRepository.findById(id).get();
-		
-		if(ruleName == null) {
-			throw new IllegalArgumentException("Invalid RuleName Id:" + id);
+		if(iRuleNameRepository.findById(id).isPresent()) {
+			return iRuleNameRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return ruleName;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class RuleNameService implements IRuleNameService {
 	}
 
 	@Override
-	public void deleteRuleNameById(Integer id) {
-		RuleName ruleName = iRuleNameRepository.findById(id).get();
-		
-		if(ruleName == null) {
-			throw new IllegalArgumentException("Invalid RuleName Id:" + id);
+	public Integer deleteRuleNameById(Integer id) {
+		if(iRuleNameRepository.findById(id).isPresent()) {
+			iRuleNameRepository.delete(iRuleNameRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iRuleNameRepository.delete(ruleName);
 	}
 }

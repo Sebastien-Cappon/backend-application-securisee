@@ -11,5 +11,5 @@ public interface IRatingService {
 	
 	public Rating addOrUpdateRating(Rating rating);
 	
-	public void deleteRatingById(Integer id);
+	public Integer deleteRatingById(Integer id);
 }

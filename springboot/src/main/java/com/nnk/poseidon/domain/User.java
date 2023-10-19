@@ -6,6 +6,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 
 @Entity
 @Table(name = "users")
@@ -17,6 +18,10 @@ public class User {
 	@NotBlank(message = "Username is mandatory")
 	private String username;
 	@NotBlank(message = "Password is mandatory")
+	@Pattern(
+		regexp="^(?=.*[A-Z])(?=.*[a-z])(?=.*[0-9])(?=.*[!@#\\$%\\^&\\*]).{8,}$",
+		message="8 chars min : a-Z 0-9 !@#$%^&*"
+	)
 	private String password;
 	@NotBlank(message = "FullName is mandatory")
 	private String fullname;

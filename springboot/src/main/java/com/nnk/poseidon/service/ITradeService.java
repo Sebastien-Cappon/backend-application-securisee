@@ -11,5 +11,5 @@ public interface ITradeService {
 	
 	public Trade addOrUpdateTrade(Trade trade);
 	
-	public void deleteTradeById(Integer id);
+	public Integer deleteTradeById(Integer id);
 }

@@ -21,13 +21,11 @@ public class RatingService implements IRatingService {
 
 	@Override
 	public Rating getRatingById(Integer id) {
-		Rating rating = iRatingRepository.findById(id).get();
-		
-		if(rating == null) {
-			throw new IllegalArgumentException("Invalid Rating Id:" + id);
+		if(iRatingRepository.findById(id).isPresent()) {
+			return iRatingRepository.findById(id).get();
+		} else {
+			return null;
 		}
-		
-		return rating;
 	}
 
 	@Override
@@ -36,13 +34,12 @@ public class RatingService implements IRatingService {
 	}
 
 	@Override
-	public void deleteRatingById(Integer id) {
-		Rating rating = iRatingRepository.findById(id).get();
-		
-		if(rating == null) {
-			throw new IllegalArgumentException("Invalid Rating Id:" + id);
+	public Integer deleteRatingById(Integer id) {
+		if(iRatingRepository.findById(id).isPresent()) {
+			iRatingRepository.delete(iRatingRepository.findById(id).get());
+			return 1;
+		} else {
+			return null;
 		}
-		
-		iRatingRepository.delete(rating);
 	}
 }

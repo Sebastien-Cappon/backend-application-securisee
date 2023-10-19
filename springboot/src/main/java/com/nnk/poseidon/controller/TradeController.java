@@ -1,6 +1,7 @@
 package com.nnk.poseidon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Trade;
 import com.nnk.poseidon.service.ITradeService;
@@ -41,8 +43,12 @@ public class TradeController {
 	public String get_tradeUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Trade trade = iTradeService.getTradeById(id);
 		
-		model.addAttribute("trade", trade);
-		return "trade/update";
+		if(trade == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			model.addAttribute("trade", trade);
+			return "trade/update";
+		}
 	}
 
 	@PostMapping("/trade/validate")
@@ -69,7 +75,12 @@ public class TradeController {
 
 	@GetMapping("/trade/delete/{id}")
 	public String deleteTrade_fromTradeListPage(@PathVariable("id") Integer id) {
-		iTradeService.deleteTradeById(id);
-		return "redirect:/trade/list";
+		Integer deletedTrade = iTradeService.deleteTradeById(id);
+		
+		if(deletedTrade == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/trade/list";
+		}
 	}
 }

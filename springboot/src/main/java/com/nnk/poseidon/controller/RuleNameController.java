@@ -1,6 +1,7 @@
 package com.nnk.poseidon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.RuleName;
 import com.nnk.poseidon.service.IRuleNameService;
@@ -41,8 +43,12 @@ public class RuleNameController {
 	public String get_ruleNameUpdateForm(@PathVariable("id") Integer id, Model model) {
 		RuleName ruleName = iRuleNameService.getRuleNameById(id);
 		
-		model.addAttribute("ruleName", ruleName);
-		return "ruleName/update";
+		if(ruleName == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			model.addAttribute("ruleName", ruleName);
+			return "ruleName/update";
+		}
 	}
 
 	@PostMapping("/ruleName/validate")
@@ -69,7 +75,12 @@ public class RuleNameController {
 
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName_fromRuleNameListPage(@PathVariable("id") Integer id) {
-		iRuleNameService.deleteRuleNameById(id);
-		return "redirect:/ruleName/list";
+		Integer deletedRuleName = iRuleNameService.deleteRuleNameById(id);
+		
+		if(deletedRuleName == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/ruleName/list";
+		}
 	}
 }

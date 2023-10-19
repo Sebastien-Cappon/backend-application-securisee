@@ -11,5 +11,5 @@ public interface IUserService {
 
 	public User addOrUpdateUser(User user);
 
-	public void deleteUserById(Integer id);
+	public Integer deleteUserById(Integer id);
 }

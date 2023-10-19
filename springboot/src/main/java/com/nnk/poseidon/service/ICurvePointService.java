@@ -11,5 +11,5 @@ public interface ICurvePointService {
 	
 	public CurvePoint addOrUpdateCurvePoint(CurvePoint curvePoint);
 	
-	public void deleteCurvePointById(Integer id);
+	public Integer deleteCurvePointById(Integer id);
 }

@@ -1,5 +1,6 @@
 package com.nnk.poseidon.controller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.User;
 import com.nnk.poseidon.service.IUserService;
@@ -40,10 +42,15 @@ public class UserController {
 	@GetMapping("/user/update/{id}")
 	public String get_userUpdateForm(@PathVariable("id") Integer id, Model model) {
 		User user = iUserService.getUserById(id);
-		user.setPassword("");
 		
-		model.addAttribute("user", user);
-		return "user/update";
+		if(user == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			user.setPassword("");
+			
+			model.addAttribute("user", user);
+			return "user/update";
+		}
 	}
 
 	@PostMapping("/user/validate")
@@ -75,7 +82,12 @@ public class UserController {
 
 	@GetMapping("/user/delete/{id}")
 	public String deleteUser_fromUserListPage(@PathVariable("id") Integer id) {
-		iUserService.deleteUserById(id);
-		return "redirect:/user/list";
+		Integer deletedUser = iUserService.deleteUserById(id);
+		
+		if(deletedUser == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/user/list";
+		}
 	}
 }

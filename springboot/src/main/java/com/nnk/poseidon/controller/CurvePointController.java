@@ -1,6 +1,7 @@
 package com.nnk.poseidon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.CurvePoint;
 import com.nnk.poseidon.service.ICurvePointService;
@@ -41,8 +43,12 @@ public class CurvePointController {
 	public String get_curvePointUpdateForm(@PathVariable("id") Integer id, Model model) {
 		CurvePoint curvePoint = iCurvePointService.getCurvePointById(id);
 		
-		model.addAttribute("curvePoint", curvePoint);
-		return "curvePoint/update";
+		if(curvePoint == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			model.addAttribute("curvePoint", curvePoint);
+			return "curvePoint/update";
+		}
 	}
 	
 	@PostMapping("/curvePoint/validate")
@@ -69,7 +75,12 @@ public class CurvePointController {
 
 	@GetMapping("/curvePoint/delete/{id}")
 	public String deleteCurvePoint_fromCurvePointListPage(@PathVariable("id") Integer id) {
-		iCurvePointService.deleteCurvePointById(id);
-		return "redirect:/curvePoint/list";
+		Integer deletedCurvePoint = iCurvePointService.deleteCurvePointById(id);;
+		
+		if(deletedCurvePoint == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/curvePoint/list";
+		}
 	}
 }

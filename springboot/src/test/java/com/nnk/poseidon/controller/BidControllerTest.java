@@ -161,7 +161,7 @@ public class BidControllerTest {
 	public void deleteBid_fromBidListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/bid/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/bid/list"));
 	}
 }

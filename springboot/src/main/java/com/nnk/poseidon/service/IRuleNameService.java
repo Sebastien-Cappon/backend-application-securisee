@@ -11,5 +11,5 @@ public interface IRuleNameService {
 	
 	public RuleName addOrUpdateRuleName(RuleName ruleName);
 	
-	public void deleteRuleNameById(Integer id);
+	public Integer deleteRuleNameById(Integer id);
 }

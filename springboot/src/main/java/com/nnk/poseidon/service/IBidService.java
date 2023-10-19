@@ -11,5 +11,5 @@ public interface IBidService {
 	
 	public Bid addOrUpdateBid(Bid bid);
 	
-	public void deleteBidById(Integer id);
+	public Integer deleteBidById(Integer id);
 }

@@ -8,6 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
 
 @Entity
 @Table(name = "curvepoint")
@@ -17,6 +18,7 @@ public class CurvePoint {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	@NotNull(message = "CurveId is mandatory")
+	@Positive(message = "CurveId must be strictly positive")
 	private Integer curveId;
 	private Timestamp asOfDate;
 	@NotNull(message = "Term is mandatory")

@@ -1,6 +1,7 @@
 package com.nnk.poseidon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Bid;
 import com.nnk.poseidon.service.IBidService;
@@ -41,8 +43,12 @@ public class BidController {
 	public String get_bidUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Bid bid = iBidService.getBidById(id);
 		
-		model.addAttribute("bid", bid);
-		return "bid/update";
+		if(bid == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			model.addAttribute("bid", bid);
+			return "bid/update";
+		}
 	}
 
 	@PostMapping("/bid/validate")
@@ -69,7 +75,12 @@ public class BidController {
 
 	@GetMapping("/bid/delete/{id}")
 	public String deleteBid_fromBidListPage(@PathVariable("id") Integer id) {
-		iBidService.deleteBidById(id);
-		return "redirect:/bid/list";
+		Integer deletedBid = iBidService.deleteBidById(id);
+		
+		if(deletedBid == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/bid/list";
+		}
 	}
 }

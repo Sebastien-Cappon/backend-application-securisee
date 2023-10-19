@@ -1,6 +1,7 @@
 package com.nnk.poseidon.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Rating;
 import com.nnk.poseidon.service.IRatingService;
@@ -41,8 +43,12 @@ public class RatingController {
 	public String get_ratingUpdateForm(@PathVariable("id") Integer id, Model model) {
 		Rating rating = iRatingService.getRatingById(id);
 		
-		model.addAttribute("rating", rating);
-		return "rating/update";
+		if(rating == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			model.addAttribute("rating", rating);
+			return "rating/update";
+		}
 	}
 
 	@PostMapping("/rating/validate")
@@ -69,7 +75,12 @@ public class RatingController {
 
 	@GetMapping("/rating/delete/{id}")
 	public String deleteRating_fromRatingListPage(@PathVariable("id") Integer id) {
-		iRatingService.deleteRatingById(id);
-		return "redirect:/rating/list";
+		Integer deletedRating = iRatingService.deleteRatingById(id);
+		
+		if(deletedRating == null) {
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+		} else {
+			return "redirect:/rating/list";
+		}
 	}
 }

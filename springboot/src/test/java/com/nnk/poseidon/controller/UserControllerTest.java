@@ -156,7 +156,7 @@ public class UserControllerTest {
 	public void deleteUser_fromUserListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/user/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/user/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/user/list"));
 	}
 }
