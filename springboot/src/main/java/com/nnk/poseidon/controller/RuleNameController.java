@@ -70,7 +70,7 @@ public class RuleNameController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/ruleName/add")
-	public String get_ruleNameAddForm() {
+	public String get_ruleNameAddForm(RuleName ruleName) {
 		return "ruleName/add";
 	}
 

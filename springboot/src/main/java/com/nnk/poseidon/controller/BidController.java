@@ -70,7 +70,7 @@ public class BidController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/bid/add")
-	public String get_bidAddForm() {
+	public String get_bidAddForm(Bid bid) {
 		return "bid/add";
 	}
 

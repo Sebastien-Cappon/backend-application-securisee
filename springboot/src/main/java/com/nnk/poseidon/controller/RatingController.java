@@ -70,7 +70,7 @@ public class RatingController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/rating/add")
-	public String get_ratingAddForm() {
+	public String get_ratingAddForm(Rating rating) {
 		return "rating/add";
 	}
 

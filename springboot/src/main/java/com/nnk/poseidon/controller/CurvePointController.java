@@ -71,7 +71,7 @@ public class CurvePointController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/curvePoint/add")
-	public String get_curvePointAddForm() {
+	public String get_curvePointAddForm(CurvePoint curvePoint) {
 		return "curvePoint/add";
 	}
 

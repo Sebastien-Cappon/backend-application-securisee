@@ -71,7 +71,7 @@ public class UserController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/user/add")
-	public String get_userAddForm() {
+	public String get_userAddForm(User user) {
 		return "user/add";
 	}
 

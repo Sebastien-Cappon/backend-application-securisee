@@ -70,7 +70,7 @@ public class TradeController {
 	 * @return A template view URI as <code>String</code>.
 	 */
 	@GetMapping("/trade/add")
-	public String get_tradeAddForm() {
+	public String get_tradeAddForm(Trade trade) {
 		return "trade/add";
 	}
 
