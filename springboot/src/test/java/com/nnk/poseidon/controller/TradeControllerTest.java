@@ -41,38 +41,38 @@ public class TradeControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private TradeService tradeService;
 
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeListPage_shouldReturnOk() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
-		
+
 		when(tradeService.getTradeList())
 			.thenReturn(tradeList);
-		
+
 		mockMvc.perform(get("/trade/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/list"))
 			.andExpect(model().attributeExists("trades"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/add"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeUpdateForm_shouldReturnOk() throws Exception {
 		when(tradeService.getTradeById(any(Integer.class)))
 			.thenReturn(trade);
@@ -82,10 +82,10 @@ public class TradeControllerTest {
 			.andExpect(view().name("trade/update"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeAddForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
@@ -93,17 +93,17 @@ public class TradeControllerTest {
 			.thenReturn(tradeList);
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
-		
+
 		mockMvc.perform(post("/trade/validate")
 				.flashAttr("trade", trade)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeAddForm_shouldFailAndReturnOk() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
@@ -111,17 +111,17 @@ public class TradeControllerTest {
 			.thenReturn(tradeList);
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
-		
+
 		mockMvc.perform(post("/trade/validate")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/add"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
@@ -129,17 +129,17 @@ public class TradeControllerTest {
 			.thenReturn(tradeList);
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
-		
+
 		mockMvc.perform(post("/trade/update/{id}", "1")
 				.flashAttr("trade", trade)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
@@ -147,21 +147,21 @@ public class TradeControllerTest {
 			.thenReturn(tradeList);
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
-		
+
 		mockMvc.perform(post("/trade/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/update"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteTrade_fromTradeListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/trade/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/trade/list"));
 	}
 }

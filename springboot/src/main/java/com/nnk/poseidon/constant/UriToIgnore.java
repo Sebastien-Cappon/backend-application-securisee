@@ -7,7 +7,7 @@ import java.util.List;
 /**
  * Constants class that regroups a short list of URI that the logger should
  * ignore. Most of these are specific to the resources required to display
- * custom error pages. Only <code>/error</code> is essential in order not to log
+ * custom error pages. <code>/error</code> is essential in order not to log
  * Spring's automatic masked calls to the <code>/error</code> page when an error
  * is thrown.
  *

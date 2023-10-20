@@ -11,10 +11,22 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>Bid</code>. It contains getters and setters, as well as an override
+ * <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>Bid</code> is linked to the <code>bidlist</code> table of
+ *              the database. <code>bidListId</code> is the only renamed
+ *              attribute. This was done in order to standardise template pages.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @Table(name = "bidlist")
 public class Bid {
-	
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "bidListId")
@@ -220,13 +232,19 @@ public class Bid {
 		this.side = side;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>Bid</code> attributes
+	 * in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>Bid</code>.
+	 */
 	@Override
 	public String toString() {
-		return "[" + id + "]" + "[" + account + "]" + "[" + type + "]" + "[" + bidQuantity + "]" + "["
-				+ askQuantity + "]" + "[" + bid + "]" + "[" + ask + "]" + "[" + benchmark + "]" + "[" + bidListDate
-				+ "]" + "[" + commentary + "]" + "[" + security + "]" + "[" + status + "]" + "[" + trader + "]" + "["
-				+ book + "]" + "[" + creationName + "]" + "[" + creationDate + "]" + "[" + revisionName + "]" + "["
-				+ revisionDate + "]" + "[" + dealName + "]" + "[" + dealType + "]" + "[" + sourceListId + "]" + "["
-				+ side + "]";
+		return "[" + id + "]" + "[" + account + "]" + "[" + type + "]" + "[" + bidQuantity + "]" + "[" + askQuantity
+				+ "]" + "[" + bid + "]" + "[" + ask + "]" + "[" + benchmark + "]" + "[" + bidListDate + "]" + "["
+				+ commentary + "]" + "[" + security + "]" + "[" + status + "]" + "[" + trader + "]" + "[" + book + "]"
+				+ "[" + creationName + "]" + "[" + creationDate + "]" + "[" + revisionName + "]" + "[" + revisionDate
+				+ "]" + "[" + dealName + "]" + "[" + dealType + "]" + "[" + sourceListId + "]" + "[" + side + "]";
 	}
 }

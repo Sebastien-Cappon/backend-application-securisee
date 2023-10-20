@@ -17,33 +17,83 @@ import com.nnk.poseidon.service.IRuleNameService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 
+/**
+ * A class that receives requests made from some of the usual CRUD endpoints and
+ * specific URL for the RuleNames. As the methods return views,
+ * <code>@Controller</code> is used instead of <code>@RestController</code>.
+ * Indeed, the response doesn't have to be serialized via
+ * <code>@ResponseBody</code>
+ * 
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Controller
 public class RuleNameController {
 
 	@Autowired
 	IRuleNameService iRuleNameService;
 
+	/**
+	 * A method which retrieves the active user and registers it in the
+	 * <code>remoteUser</code> attribute of the current <code>Model</code> in order
+	 * to display the name of the connected user at the top of the page.
+	 * 
+	 * @return An <code>Object</code>.
+	 */
 	@ModelAttribute("remoteUser")
 	public Object remoteUser(final HttpServletRequest httpServletRequest) {
-	    return httpServletRequest.getRemoteUser();
+		return httpServletRequest.getRemoteUser();
 	}
-	
+
+	/**
+	 * A <code>GetMapping</code> method on the <code>/ruleName/list</code> URI with
+	 * a <code>Model</code> as parameter. It calls the <code>IRuleNameService</code>
+	 * method <code>getRuleNameList()</code> in order to get <code>Model</code>
+	 * attribute, before returning the URI of a template page.
+	 * 
+	 * @frontCall RuleName list page.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@GetMapping("/ruleName/list")
 	public String get_ruleNameListPage(Model model) {
 		model.addAttribute("ruleNames", iRuleNameService.getRuleNameList());
 		return "ruleName/list";
 	}
 
+	/**
+	 * A <code>GetMapping</code> method on the <code>/ruleName/add</code> URI. It
+	 * only returns the URI of a template page.
+	 * 
+	 * @frontCall RuleName add form page.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@GetMapping("/ruleName/add")
-	public String get_ruleNameAddForm(RuleName ruleName) {
+	public String get_ruleNameAddForm() {
 		return "ruleName/add";
 	}
 
+	/**
+	 * A <code>GetMapping</code> method on the <code>/ruleName/update</code> URI
+	 * with a ruleName id as <code>PathVariable</code> and a <code>Model</code> as
+	 * parameter. It calls the <code>IRuleNameService</code> method
+	 * <code>getRuleNameById(int id)</code> in order to get <code>Model</code>
+	 * attribute, before returning the URI of a template page of the current
+	 * ruleName.
+	 * 
+	 * @frontCall RuleName update form page.
+	 * 
+	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the ruleName concerned doesn't
+	 * exist.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@GetMapping("/ruleName/update/{id}")
 	public String get_ruleNameUpdateForm(@PathVariable("id") Integer id, Model model) {
 		RuleName ruleName = iRuleNameService.getRuleNameById(id);
-		
-		if(ruleName == null) {
+
+		if (ruleName == null) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
 			model.addAttribute("ruleName", ruleName);
@@ -51,6 +101,17 @@ public class RuleNameController {
 		}
 	}
 
+	/**
+	 * A <code>PostMapping</code> method on the <code>/ruleName/validate</code> URI
+	 * with a valid <code>RuleName</code> and a <code>Model</code> as parameter. It
+	 * calls the <code>IRuleNameService</code> method
+	 * <code>addOrUpdateRuleName(RuleName ruleName)</code> in order to save the new
+	 * ruleName in the database. Then, it redirects to the ruleName list page.
+	 * 
+	 * @frontCall RuleName add form.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@PostMapping("/ruleName/validate")
 	public String postRuleName_fromRuleNameAddForm(@Valid RuleName ruleName, BindingResult result) {
 		if (!result.hasErrors()) {
@@ -61,6 +122,19 @@ public class RuleNameController {
 		return "ruleName/add";
 	}
 
+	/**
+	 * A <code>PostMapping</code> method on the <code>/ruleName/update</code> URI
+	 * with a ruleName id as <code>PathVariable</code>, a valid
+	 * <code>RuleName</code> and a <code>Model</code> as parameter. It calls the
+	 * <code>IRuleNameService</code> method
+	 * <code>addOrUpdateRuleName(RuleName ruleName)</code> in order to update, in
+	 * the database, the ruleName whose id is passed in parameter. Then, it
+	 * redirects to the ruleName list page.
+	 * 
+	 * @frontCall RuleName update form.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@PostMapping("/ruleName/update/{id}")
 	public String postRuleName_fromRuleNameUpdateForm(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
 		if (!result.hasErrors()) {
@@ -69,15 +143,28 @@ public class RuleNameController {
 
 			return "redirect:/ruleName/list";
 		}
-		
+
 		return "ruleName/update";
 	}
 
+	/**
+	 * A <code>GetMapping</code> method on the <code>/ruleName/delete</code> URI
+	 * with a ruleName id as <code>PathVariable</code>. It calls the
+	 * <code>IRuleNameService</code> method <code>deleteRuleNameById(int id)</code>.
+	 * Then, it redirects to the ruleName list page.
+	 * 
+	 * @frontCall RuleName list page.
+	 * 
+	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the ruleName concerned doesn't
+	 * exist.
+	 * 
+	 * @return A template view URI as <code>String</code>.
+	 */
 	@GetMapping("/ruleName/delete/{id}")
 	public String deleteRuleName_fromRuleNameListPage(@PathVariable("id") Integer id) {
 		Integer deletedRuleName = iRuleNameService.deleteRuleNameById(id);
-		
-		if(deletedRuleName == null) {
+
+		if (deletedRuleName == null) {
 			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
 		} else {
 			return "redirect:/ruleName/list";

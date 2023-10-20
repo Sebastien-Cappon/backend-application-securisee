@@ -13,7 +13,7 @@ public class LoginControllerTest {
 
 	@Autowired
 	MockMvc mockMvc;
-	
+
 	@Test
 	public void login_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/login"))

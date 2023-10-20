@@ -34,24 +34,24 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 public class BidEndpointsIT {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(BidEndpointsIT.class);
 	private Bid bid = DomainObjectBuilders.createBid(null, "AccountIT", "TypeIT", 10d, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private IBidService iBidService;
-	
+
 	@BeforeAll
 	public void fillH2Database() {
 		logger.info("bidlist table in the H2 test database filled.");
-		
+
 		for (int i = 0; i < 3; i++) {
 			iBidService.addOrUpdateBid(bid);
 		}
 	}
-	
+
 	@AfterAll
 	public void teardDown() {
 		logger.info("H2 test database closed.");
@@ -59,17 +59,17 @@ public class BidEndpointsIT {
 
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("bid/list"))
 			.andExpect(model().attributeExists("bids"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/add"))
 			.andExpect(status().isOk())
@@ -79,7 +79,7 @@ public class BidEndpointsIT {
 
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidUpdateForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/update/{id}", "1"))
 			.andExpect(status().isOk())
@@ -89,15 +89,15 @@ public class BidEndpointsIT {
 
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidUpdateForm_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/bid/update/{id}", "9999"))
 			.andExpect(status().isInternalServerError());
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidAddForm_shouldSuccessAndRedirectToBidListPage() throws Exception {
 		mockMvc.perform(post("/bid/validate")
 				.flashAttr("bid", bid)
@@ -105,10 +105,10 @@ public class BidEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidAddForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/bid/validate")
 				.with(csrf()))
@@ -116,10 +116,10 @@ public class BidEndpointsIT {
 			.andExpect(view().name("bid/add"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidUpdateForm_shouldSuccessAndRedirectToBidListPage() throws Exception {
 		mockMvc.perform(post("/bid/update/{id}", "1")
 				.flashAttr("bid", bid)
@@ -127,10 +127,10 @@ public class BidEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidUpdateForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/bid/update/{id}", "1")
 				.with(csrf()))
@@ -138,20 +138,20 @@ public class BidEndpointsIT {
 			.andExpect(view().name("bid/update"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(9)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteBid_fromBidListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
+
 	@Test
 	@Order(10)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteBid_fromBidListPage_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/bid/delete/{id}", "9999")
 				.with(csrf()))

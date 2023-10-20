@@ -30,26 +30,27 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 public class LoginEndpointIT {
+	
 	private static final Logger logger = LoggerFactory.getLogger(RatingEndpointsIT.class);
 	private BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 	private User user = DomainObjectBuilders.createUser(null, "UsernameIT", encoder.encode("P@55w0rdIT"), "FullnameIT", "ADMIN");
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private IUserService iUserService;
-	
+
 	@BeforeAll
 	public void fillH2Database() {
 		logger.info("user table in the H2 test database filled.");
 		iUserService.addOrUpdateUser(user);
 	}
-	
+
 	@AfterAll
 	public void teardDown() {
 		logger.info("H2 test database closed.");
 	}
-	
+
 	@Test
 	@Order(1)
 	public void login_shouldReturnSuccessAndRedirectToBidListPage() throws Exception {
@@ -59,7 +60,6 @@ public class LoginEndpointIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
 
 	@Test
 	@Order(2)

@@ -37,49 +37,49 @@ public class TradeEndpointsIT {
 
 	private static final Logger logger = LoggerFactory.getLogger(RatingEndpointsIT.class);
 	private Trade trade = DomainObjectBuilders.createTrade(null, "AccountIT", "TypeIT", 1d, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private ITradeService iTradeService;
-	
+
 	@BeforeAll
 	public void fillH2Database() {
 		logger.info("trade table in the H2 test database filled.");
-		
+
 		for (int i = 0; i < 3; i++) {
 			iTradeService.addOrUpdateTrade(trade);
 		}
 	}
-	
+
 	@AfterAll
 	public void teardDown() {
 		logger.info("H2 test database closed.");
 	}
-	
+
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/list"))
 			.andExpect(model().attributeExists("trades"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/add"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeUpdateForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/update/{id}", "1"))
 			.andExpect(status().isOk())
@@ -89,15 +89,15 @@ public class TradeEndpointsIT {
 
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_tradeUpdateForm_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/trade/update/{id}", "9999"))
 			.andExpect(status().isInternalServerError());
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeAddForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
 		mockMvc.perform(post("/trade/validate")
 				.flashAttr("trade", trade)
@@ -105,10 +105,10 @@ public class TradeEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeAddForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/trade/validate")
 				.with(csrf()))
@@ -116,10 +116,10 @@ public class TradeEndpointsIT {
 			.andExpect(view().name("trade/add"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
 		mockMvc.perform(post("/trade/update/{id}", "1")
 				.flashAttr("trade", trade)
@@ -127,10 +127,10 @@ public class TradeEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/trade/update/{id}", "1")
 				.with(csrf()))
@@ -138,23 +138,23 @@ public class TradeEndpointsIT {
 			.andExpect(view().name("trade/update"))
 			.andExpect(model().attributeExists("trade"));
 	}
-	
+
 	@Test
 	@Order(9)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteTrade_fromTradeListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/trade/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/trade/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/trade/list"));
 	}
-	
+
 	@Test
 	@Order(10)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteTrade_fromTradeListPage_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/trade/delete/{id}", "9999")
 				.with(csrf()))
-		.andExpect(status().isInternalServerError());
+			.andExpect(status().isInternalServerError());
 	}
 }

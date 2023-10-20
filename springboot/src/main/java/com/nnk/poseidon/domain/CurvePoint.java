@@ -10,6 +10,19 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>CurvePoint</code>. It contains getters and setters, as well as an
+ * override <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>CurvePoint</code> is linked to the <code>curvepoint</code>
+ *              table of the database. <code>curveId</code> must be strictly
+ *              positive. The template had to be adapted to accommodate the
+ *              curveId attribute.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @Table(name = "curvepoint")
 public class CurvePoint {
@@ -75,6 +88,13 @@ public class CurvePoint {
 		this.creationDate = creationDate;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>CurvePoint</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>CurvePoint</code>.
+	 */
 	@Override
 	public String toString() {
 		return "[" + id + "]" + "[" + curveId + "]" + "[" + asOfDate + "]" + "[" + term + "]" + "[" + value + "]" + "["

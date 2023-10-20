@@ -52,8 +52,8 @@ public class HandlerInterceptorImpl implements HandlerInterceptor {
 
 	/**
 	 * A method which listen requests responses returned by the API and log them to
-	 * <code>INFO</code> level if the status code is 2xx or <code>ERROR</code> level
-	 * if the status code is 4xx or 5xx.
+	 * <code>INFO</code> level if the status code is 2xx or 3xx and
+	 * <code>ERROR</code> level if the status code is 4xx or 5xx.
 	 *
 	 * @return <code>void</code>
 	 */

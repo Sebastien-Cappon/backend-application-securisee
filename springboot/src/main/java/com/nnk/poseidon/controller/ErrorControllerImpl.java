@@ -23,9 +23,9 @@ public class ErrorControllerImpl implements ErrorController {
 
 	@ModelAttribute("remoteUser")
 	public Object remoteUser(final HttpServletRequest httpServletRequest) {
-	    return httpServletRequest.getRemoteUser();
+		return httpServletRequest.getRemoteUser();
 	}
-	
+
 	/**
 	 * A <code>GetMapping</code> method on <code>/error</code> URI which looks at
 	 * the <code>ERROR_STATUS_CODE</code> attribute in order to redirect to the

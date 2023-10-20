@@ -7,6 +7,17 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>RuleName</code>. It contains getters and setters, as well as an
+ * override <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>RuleName</code> is linked to the <code>rulename</code>
+ *              table of the database.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @Table(name = "rulename")
 public class RuleName {
@@ -82,6 +93,13 @@ public class RuleName {
 		this.sqlPart = sqlPart;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>RuleName</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>RuleName</code>.
+	 */
 	@Override
 	public String toString() {
 		return "[" + id + "]" + "[" + name + "]" + "[" + description + "]" + "[" + json + "]" + "[" + template + "]"

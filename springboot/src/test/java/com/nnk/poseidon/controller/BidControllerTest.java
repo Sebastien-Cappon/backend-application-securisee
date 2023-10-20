@@ -41,38 +41,37 @@ public class BidControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private BidService bidService;
 
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidListPage_shouldReturnOk() throws Exception {
 		List<Bid> bidList = new ArrayList<>(Arrays.asList(bid, bid));
-		
-		when(bidService.getBidList())
-			.thenReturn(bidList);
-		
+
+		when(bidService.getBidList()).thenReturn(bidList);
+
 		mockMvc.perform(get("/bid/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("bid/list"))
 			.andExpect(model().attributeExists("bids"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("bid/add"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_bidUpdateForm_shouldReturnOk() throws Exception {
 		when(bidService.getBidById(any(Integer.class)))
 			.thenReturn(bid);
@@ -82,10 +81,10 @@ public class BidControllerTest {
 			.andExpect(view().name("bid/update"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidAddForm_shouldSuccessAndRedirectToBidListPage() throws Exception {
 		List<Bid> bidList = new ArrayList<>(Arrays.asList(bid, bid));
 
@@ -93,17 +92,17 @@ public class BidControllerTest {
 			.thenReturn(bidList);
 		when(bidService.addOrUpdateBid(any(Bid.class)))
 			.thenReturn(bid);
-		
+
 		mockMvc.perform(post("/bid/validate")
 				.flashAttr("bid", bid)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidAddForm_shouldFailAndReturnOk() throws Exception {
 		List<Bid> bidList = new ArrayList<>(Arrays.asList(bid, bid));
 
@@ -111,17 +110,17 @@ public class BidControllerTest {
 			.thenReturn(bidList);
 		when(bidService.addOrUpdateBid(any(Bid.class)))
 			.thenReturn(bid);
-		
+
 		mockMvc.perform(post("/bid/validate")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("bid/add"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidUpdateForm_shouldSuccessAndRedirectToBidListPage() throws Exception {
 		List<Bid> bidList = new ArrayList<>(Arrays.asList(bid, bid));
 
@@ -129,17 +128,16 @@ public class BidControllerTest {
 			.thenReturn(bidList);
 		when(bidService.addOrUpdateBid(any(Bid.class)))
 			.thenReturn(bid);
-		
+
 		mockMvc.perform(post("/bid/update/{id}", "1")
-				.flashAttr("bid", bid)
-				.with(csrf()))
+				.flashAttr("bid", bid).with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/bid/list"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postBid_fromBidUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<Bid> bidList = new ArrayList<>(Arrays.asList(bid, bid));
 
@@ -147,17 +145,17 @@ public class BidControllerTest {
 			.thenReturn(bidList);
 		when(bidService.addOrUpdateBid(any(Bid.class)))
 			.thenReturn(bid);
-		
+
 		mockMvc.perform(post("/bid/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("bid/update"))
 			.andExpect(model().attributeExists("bid"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteBid_fromBidListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/bid/delete/{id}", "1")
 				.with(csrf()))

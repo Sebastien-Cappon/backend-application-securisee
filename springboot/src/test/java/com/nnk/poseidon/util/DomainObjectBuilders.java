@@ -11,11 +11,10 @@ import com.nnk.poseidon.domain.User;
 
 public class DomainObjectBuilders {
 
-	public static Bid createBid(Integer id, String account, String type, Double bidQuantity,
-			Double askQuantity, Double bid, Double ask, String benchmark, Timestamp bidListDate, String commentary,
-			String security, String status, String trader, String book, String creationName, Timestamp creationDate,
-			String revisionName, Timestamp revisionDate, String dealName, String dealType, String sourceListId,
-			String side) {
+	public static Bid createBid(Integer id, String account, String type, Double bidQuantity, Double askQuantity,
+			Double bid, Double ask, String benchmark, Timestamp bidListDate, String commentary, String security,
+			String status, String trader, String book, String creationName, Timestamp creationDate, String revisionName,
+			Timestamp revisionDate, String dealName, String dealType, String sourceListId, String side) {
 		Bid bidList = new Bid();
 		bidList.setId(id);
 		bidList.setAccount(account);
@@ -43,7 +42,8 @@ public class DomainObjectBuilders {
 		return bidList;
 	}
 
-	public static CurvePoint createCurvePoint(Integer id, Integer curveId, Timestamp asOfDate, Double term, Double value, Timestamp creationDate) {
+	public static CurvePoint createCurvePoint(Integer id, Integer curveId, Timestamp asOfDate, Double term,
+			Double value, Timestamp creationDate) {
 		CurvePoint curvePoint = new CurvePoint();
 		curvePoint.setId(id);
 		curvePoint.setCurveId(curveId);
@@ -55,7 +55,8 @@ public class DomainObjectBuilders {
 		return curvePoint;
 	}
 
-	public static Rating createRating(Integer id, String moodysRating, String sandPRating, String fitchRating, Integer orderNumber) {
+	public static Rating createRating(Integer id, String moodysRating, String sandPRating, String fitchRating,
+			Integer orderNumber) {
 		Rating rating = new Rating();
 		rating.setId(id);
 		rating.setMoodysRating(moodysRating);
@@ -66,7 +67,8 @@ public class DomainObjectBuilders {
 		return rating;
 	}
 
-	public static RuleName createRuleName(Integer id, String name, String description, String json, String template, String sqlStr, String sqlPart) {
+	public static RuleName createRuleName(Integer id, String name, String description, String json, String template,
+			String sqlStr, String sqlPart) {
 		RuleName ruleName = new RuleName();
 		ruleName.setId(id);
 		ruleName.setName(name);
@@ -109,7 +111,7 @@ public class DomainObjectBuilders {
 
 		return trade;
 	}
-	
+
 	public static User createUser(Integer id, String username, String password, String fullname, String role) {
 		User user = new User();
 		user.setId(id);
@@ -117,7 +119,7 @@ public class DomainObjectBuilders {
 		user.setPassword(password);
 		user.setFullname(fullname);
 		user.setRole(role);
-		
+
 		return user;
 	}
 }

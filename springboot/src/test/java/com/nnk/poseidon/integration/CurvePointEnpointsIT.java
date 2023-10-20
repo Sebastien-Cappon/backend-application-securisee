@@ -35,70 +35,69 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 @TestMethodOrder(OrderAnnotation.class)
 public class CurvePointEnpointsIT {
 
-
 	private static final Logger logger = LoggerFactory.getLogger(BidEndpointsIT.class);
 	private CurvePoint curvePoint = DomainObjectBuilders.createCurvePoint(null, 1, null, 1d, 2d, null);
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private ICurvePointService iCurvePointService;
-	
+
 	@BeforeAll
 	public void setup() {
 		logger.info("curvepoint table in the H2 test database filled.");
-		
+
 		for (int i = 0; i < 3; i++) {
 			iCurvePointService.addOrUpdateCurvePoint(curvePoint);
 		}
 	}
-	
+
 	@AfterAll
 	public void teardDown() {
 		logger.info("H2 test database closed.");
 	}
-	
+
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/list"))
 			.andExpect(model().attributeExists("curvePoints"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/add"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointUpdateForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/update/{id}", "1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/update"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointUpdateForm_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/curvePoint/update/{id}", "9999"))
 			.andExpect(status().isInternalServerError());
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointAddForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
 		mockMvc.perform(post("/curvePoint/validate")
 				.flashAttr("curvePoint", curvePoint)
@@ -106,10 +105,10 @@ public class CurvePointEnpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointAddForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/curvePoint/validate")
 				.with(csrf()))
@@ -117,21 +116,22 @@ public class CurvePointEnpointsIT {
 			.andExpect(view().name("curvePoint/add"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
-	public void postCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
+	@WithMockUser(username = "user", roles = { "USER" })
+	public void postCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage()
+			throws Exception {
 		mockMvc.perform(post("/curvePoint/update/{id}", "1")
 				.flashAttr("curvePoint", curvePoint)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/curvePoint/update/{id}", "1")
 				.with(csrf()))
@@ -139,23 +139,23 @@ public class CurvePointEnpointsIT {
 			.andExpect(view().name("curvePoint/update"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(9)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteCurvePoint_fromCurvePointListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/curvePoint/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
 
 	@Test
 	@Order(10)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteCurvePoint_fromCurvePointListPage_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/curvePoint/delete/{id}", "9999")
 				.with(csrf()))
-		.andExpect(status().isInternalServerError());
+			.andExpect(status().isInternalServerError());
 	}
 }

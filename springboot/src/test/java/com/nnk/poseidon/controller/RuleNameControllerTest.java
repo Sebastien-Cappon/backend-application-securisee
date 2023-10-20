@@ -36,38 +36,38 @@ public class RuleNameControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private RuleNameService ruleNameService;
 
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ruleNameListPage_shouldReturnOk() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
-		
+
 		when(ruleNameService.getRuleNameList())
 			.thenReturn(ruleNameList);
-		
+
 		mockMvc.perform(get("/ruleName/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/list"))
 			.andExpect(model().attributeExists("ruleNames"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ruleNameAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/ruleName/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/add"))
 			.andExpect(model().attributeExists("ruleName"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ruleNameUpdateForm_shouldReturnOk() throws Exception {
 		when(ruleNameService.getRuleNameById(any(Integer.class)))
 			.thenReturn(ruleName);
@@ -77,10 +77,10 @@ public class RuleNameControllerTest {
 			.andExpect(view().name("ruleName/update"))
 			.andExpect(model().attributeExists("ruleName"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRuleName_fromRuleNameAddForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
@@ -88,17 +88,17 @@ public class RuleNameControllerTest {
 			.thenReturn(ruleNameList);
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
-		
+
 		mockMvc.perform(post("/ruleName/validate")
 				.flashAttr("ruleName", ruleName)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/ruleName/list"));
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRuleName_fromRuleNameAddForm_shouldFailAndReturnOk() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
@@ -106,17 +106,17 @@ public class RuleNameControllerTest {
 			.thenReturn(ruleNameList);
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
-		
+
 		mockMvc.perform(post("/ruleName/validate")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/add"))
 			.andExpect(model().attributeExists("ruleName"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRuleName_fromRuleNameUpdateForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
@@ -124,17 +124,17 @@ public class RuleNameControllerTest {
 			.thenReturn(ruleNameList);
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
-		
+
 		mockMvc.perform(post("/ruleName/update/{id}", "1")
 				.flashAttr("ruleName", ruleName)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/ruleName/list"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRuleName_fromRuleNameUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
@@ -142,21 +142,21 @@ public class RuleNameControllerTest {
 			.thenReturn(ruleNameList);
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
-		
+
 		mockMvc.perform(post("/ruleName/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/update"))
 			.andExpect(model().attributeExists("ruleName"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRuleName_fromRuleNameListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/ruleName/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/ruleName/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/ruleName/list"));
 	}
 }

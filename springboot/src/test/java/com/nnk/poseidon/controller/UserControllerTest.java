@@ -33,41 +33,41 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 public class UserControllerTest {
 
 	private User user = DomainObjectBuilders.createUser(1, "Username", "P@sswo4d", "Fullname", "USER");
-	
+
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private UserService userService;
-	
+
 	@Test
 	@Order(1)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void get_userListPage_shouldReturnOk() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
-		
+
 		when(userService.getUserList())
 			.thenReturn(userList);
-		
+
 		mockMvc.perform(get("/user/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/list"))
 			.andExpect(model().attributeExists("users"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void get_userAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/user/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/add"))
 			.andExpect(model().attributeExists("user"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void get_UserUpdateForm_shouldReturnOk() throws Exception {
 		when(userService.getUserById(any(Integer.class)))
 			.thenReturn(user);
@@ -77,10 +77,10 @@ public class UserControllerTest {
 			.andExpect(view().name("user/update"))
 			.andExpect(model().attributeExists("user"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void postUser_fromUserAddForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
@@ -88,17 +88,17 @@ public class UserControllerTest {
 			.thenReturn(userList);
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
-		
+
 		mockMvc.perform(post("/user/validate")
 				.flashAttr("user", user)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/user/list"));
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void postUser_fromUserAddForm_shouldFailAndReturnOk() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
@@ -106,17 +106,17 @@ public class UserControllerTest {
 			.thenReturn(userList);
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
-		
+
 		mockMvc.perform(post("/user/validate")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/add"))
 			.andExpect(model().attributeExists("user"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void postUser_fromUserUpdateForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
@@ -124,17 +124,17 @@ public class UserControllerTest {
 			.thenReturn(userList);
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
-		
+
 		mockMvc.perform(post("/user/update/{id}", "1")
 				.flashAttr("user", user)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/user/list"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void postUser_fromUserUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
@@ -142,17 +142,17 @@ public class UserControllerTest {
 			.thenReturn(userList);
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
-		
+
 		mockMvc.perform(post("/user/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/update"))
 			.andExpect(model().attributeExists("user"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="admin", roles={"ADMIN"})
+	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void deleteUser_fromUserListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/user/delete/{id}", "1")
 				.with(csrf()))

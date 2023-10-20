@@ -34,70 +34,70 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @TestMethodOrder(OrderAnnotation.class)
 public class RatingEndpointsIT {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(RatingEndpointsIT.class);
 	private Rating rating = DomainObjectBuilders.createRating(null, "MoodysIT", "SandPIT", "FitchIT", 1);
-	
+
 	@Autowired
 	private MockMvc mockMvc;
 	@Autowired
 	private IRatingService iRatingService;
-	
+
 	@BeforeAll
 	public void fillH2Database() {
 		logger.info("rating table in the H2 test database filled.");
-		
+
 		for (int i = 0; i < 3; i++) {
 			iRatingService.addOrUpdateRating(rating);
 		}
 	}
-	
+
 	@AfterAll
 	public void teardDown() {
 		logger.info("H2 test database closed.");
 	}
-	
+
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ratingListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/rating/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("rating/list"))
 			.andExpect(model().attributeExists("ratings"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ratingAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/rating/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("rating/add"))
 			.andExpect(model().attributeExists("rating"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ratingUpdateForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/rating/update/{id}", "1"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("rating/update"))
 			.andExpect(model().attributeExists("rating"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_ratingUpdateForm_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/rating/update/{id}", "9999"))
 			.andExpect(status().isInternalServerError());
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRRating_fromRatingAddForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
 		mockMvc.perform(post("/rating/validate")
 				.flashAttr("rating", rating)
@@ -105,10 +105,10 @@ public class RatingEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/rating/list"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRating_fromRatingAddForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/rating/validate")
 				.with(csrf()))
@@ -116,10 +116,10 @@ public class RatingEndpointsIT {
 			.andExpect(view().name("rating/add"))
 			.andExpect(model().attributeExists("rating"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRating_fromRatingUpdateForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
 		mockMvc.perform(post("/rating/update/{id}", "1")
 				.flashAttr("rating", rating)
@@ -127,10 +127,10 @@ public class RatingEndpointsIT {
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/rating/list"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postRating_fromRatingUpdateForm_shouldFailAndReturnOk() throws Exception {
 		mockMvc.perform(post("/rating/update/{id}", "1")
 				.with(csrf()))
@@ -141,20 +141,20 @@ public class RatingEndpointsIT {
 
 	@Test
 	@Order(9)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRating_fromRatingListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/rating/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/rating/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/rating/list"));
 	}
-	
+
 	@Test
 	@Order(10)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRating_fromRatingListPage_shouldThrowInternalServerError() throws Exception {
 		mockMvc.perform(get("/rating/delete/{id}", "9999")
 				.with(csrf()))
-		.andExpect(status().isInternalServerError());
+			.andExpect(status().isInternalServerError());
 	}
 }

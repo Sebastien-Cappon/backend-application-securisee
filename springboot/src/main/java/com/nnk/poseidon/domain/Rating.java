@@ -8,6 +8,20 @@ import jakarta.persistence.Table;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+/**
+ * A model class which creates the POJO (Plain Old Java Object)
+ * <code>Rating</code>. It contains getters and setters, as well as an override
+ * <code>toSring()</code> method for display in the console.
+ *
+ * @singularity <code>Rating</code> is linked to the <code>rating</code> table
+ *              of the database. Due to a conflict between the template and the
+ *              list of financial entities of the POJO classes, the decision was
+ *              made to align with the list and rectify the template
+ *              accordingly.
+ *
+ * @author Sébastien Cappon
+ * @version 1.0
+ */
 @Entity
 @Table(name = "rating")
 public class Rating {
@@ -63,6 +77,13 @@ public class Rating {
 		this.orderNumber = orderNumber;
 	}
 
+	/**
+	 * An override method for user-friendly display of <code>Rating</code>
+	 * attributes in the console. Not necessary, except for test purposes.
+	 * 
+	 * @return <code>String</code> containing all the attributes of
+	 *         <code>Rating</code>.
+	 */
 	@Override
 	public String toString() {
 		return "[" + id + "]" + "[" + moodysRating + "]" + "[" + sandPRating + "]" + "[" + fitchRating + "]" + "["

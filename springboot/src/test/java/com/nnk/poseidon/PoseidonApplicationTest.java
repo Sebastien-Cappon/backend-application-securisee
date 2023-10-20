@@ -8,6 +8,6 @@ public class PoseidonApplicationTest {
 
 	@Test
 	void contextLoads() {
-		
+
 	}
 }

@@ -13,14 +13,11 @@ import com.nnk.poseidon.util.DomainObjectBuilders;
 public class DomainsTests {
 
 	private DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-	private Timestamp timeStampTest = Timestamp
-			.valueOf(LocalDate.parse("2023-10-02", dateTimeFormatter).atStartOfDay());
+	private Timestamp timeStampTest = Timestamp.valueOf(LocalDate.parse("2023-10-02", dateTimeFormatter).atStartOfDay());
 
 	@Test
 	public void bidListToString_isNotBlank() {
-		Bid bidList = DomainObjectBuilders.createBid(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark",
-				timeStampTest, "Commentary", "Security", "Status", "Trader", "Book", "Creation name", timeStampTest,
-				"Revision name", timeStampTest, "Deal name", "Deal type", "Source list id", "Side");
+		Bid bidList = DomainObjectBuilders.createBid(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark", timeStampTest, "Commentary", "Security", "Status", "Trader", "Book", "Creation name", timeStampTest, "Revision name", timeStampTest, "Deal name", "Deal type", "Source list id", "Side");
 		assertThat(bidList.toString()).isNotBlank();
 	}
 
@@ -38,15 +35,14 @@ public class DomainsTests {
 
 	@Test
 	public void ruleNameToString_isNotBlank() {
-		RuleName ruleName = DomainObjectBuilders.createRuleName(1, "Name", "Description", "Json", "Template", "SqlStr", "SqlPart");
+		RuleName ruleName = DomainObjectBuilders.createRuleName(1, "Name", "Description", "Json", "Template", "SqlStr",
+				"SqlPart");
 		assertThat(ruleName.toString()).isNotBlank();
 	}
 
 	@Test
 	public void tradeToString_isNotBlank() {
-		Trade trade = DomainObjectBuilders.createTrade(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark", timeStampTest,
-				"Security", "Status", "Trader", "Book", "CreationName", timeStampTest, "RevisionName", timeStampTest,
-				"DealName", "DealType", "SourceListId", "Side");
+		Trade trade = DomainObjectBuilders.createTrade(1, "Account", "Type", 1d, 2d, 3d, 4d, "Benchmark", timeStampTest, "Security", "Status", "Trader", "Book", "CreationName", timeStampTest, "RevisionName", timeStampTest, "DealName", "DealType", "SourceListId", "Side");
 		assertThat(trade.toString()).isNotBlank();
 	}
 }

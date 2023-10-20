@@ -15,9 +15,9 @@ public class HomeControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@Test
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void home_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/"))
 			.andExpect(status().isOk())

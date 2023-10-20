@@ -41,38 +41,38 @@ public class CurvePointControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-	
+
 	@MockBean
 	private CurvePointService curvePointService;
 
 	@Test
 	@Order(1)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointListPage_shouldReturnOk() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
-		
+
 		when(curvePointService.getCurvePointList())
 			.thenReturn(curvePointList);
-		
+
 		mockMvc.perform(get("/curvePoint/list"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/list"))
 			.andExpect(model().attributeExists("curvePoints"));
 	}
-	
+
 	@Test
 	@Order(2)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointAddForm_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/add"))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/add"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(3)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void get_curvePointUpdateForm_shouldReturnOk() throws Exception {
 		when(curvePointService.getCurvePointById(any(Integer.class)))
 			.thenReturn(curvePoint);
@@ -82,10 +82,10 @@ public class CurvePointControllerTest {
 			.andExpect(view().name("curvePoint/update"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(4)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointAddForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
 
@@ -93,35 +93,35 @@ public class CurvePointControllerTest {
 			.thenReturn(curvePointList);
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
-		
+
 		mockMvc.perform(post("/curvePoint/validate")
 				.flashAttr("curvePoint", curvePoint)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
-	
+
 	@Test
 	@Order(5)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointAddForm_shouldFailAndReturnOk() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
-		
+
 		when(curvePointService.getCurvePointList())
 			.thenReturn(curvePointList);
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
-		
+
 		mockMvc.perform(post("/curvePoint/validate")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/add"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(6)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
 
@@ -129,17 +129,16 @@ public class CurvePointControllerTest {
 			.thenReturn(curvePointList);
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
-		
+
 		mockMvc.perform(post("/curvePoint/update/{id}", "1")
-				.flashAttr("curvePoint", curvePoint)
-				.with(csrf()))
+				.flashAttr("curvePoint", curvePoint).with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
-	
+
 	@Test
 	@Order(7)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void postCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
 
@@ -147,21 +146,21 @@ public class CurvePointControllerTest {
 			.thenReturn(curvePointList);
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
-		
+
 		mockMvc.perform(post("/curvePoint/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/update"))
 			.andExpect(model().attributeExists("curvePoint"));
 	}
-	
+
 	@Test
 	@Order(8)
-	@WithMockUser(username="user", roles={"USER"})
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteCurvePoint_fromCurvePointListPage_shouldReturnOk() throws Exception {
 		mockMvc.perform(get("/curvePoint/delete/{id}", "1")
 				.with(csrf()))
-		.andExpect(status().is3xxRedirection())
-		.andExpect(header().string("Location", "/curvePoint/list"));
+			.andExpect(status().is3xxRedirection())
+			.andExpect(header().string("Location", "/curvePoint/list"));
 	}
 }
