@@ -10,7 +10,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
-import com.nnk.poseidon.service.AuthenticationServiceImpl;
+import com.nnk.poseidon.service.UserDetailsServiceImpl;
 
 /**
  * A configuration class that contains 5 Beans for configuring SpringSecurity to
@@ -28,11 +28,11 @@ public class SpringSecurityConfig {
 	 * A Bean linking SpringSecurity to the application's Service layer
 	 * authentication class.
 	 * 
-	 * @return A <code>AuthenticationServiceImpl</code>
+	 * @return A <code>UserDetailsServiceImpl</code>
 	 */
 	@Bean
-	public AuthenticationServiceImpl authService() {
-		return new AuthenticationServiceImpl();
+	public UserDetailsServiceImpl userDetailsService() {
+		return new UserDetailsServiceImpl();
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class SpringSecurityConfig {
 	public DaoAuthenticationProvider daoAuthProvider() {
 		DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
 
-		daoAuthenticationProvider.setUserDetailsService(authService());
+		daoAuthenticationProvider.setUserDetailsService(userDetailsService());
 		daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
 
 		return daoAuthenticationProvider;

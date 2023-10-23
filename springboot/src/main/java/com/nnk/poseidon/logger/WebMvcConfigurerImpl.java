@@ -13,7 +13,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  * @version 1.0
  */
 @Configuration
-public class WebMvcControllerImpl implements WebMvcConfigurer {
+public class WebMvcConfigurerImpl implements WebMvcConfigurer {
 
 	/**
 	 * An override method that set up the interceptor needed to listen to API

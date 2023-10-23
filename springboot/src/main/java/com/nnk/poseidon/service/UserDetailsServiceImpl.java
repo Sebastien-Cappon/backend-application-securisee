@@ -17,7 +17,7 @@ import com.nnk.poseidon.repository.IUserRepository;
  * @version 1.0
  */
 @Service
-public class AuthenticationServiceImpl implements UserDetailsService {
+public class UserDetailsServiceImpl implements UserDetailsService {
 
 	@Autowired
 	IUserRepository iUserRepository;

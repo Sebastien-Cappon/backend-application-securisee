@@ -35,7 +35,7 @@ public class ErrorControllerImpl implements ErrorController {
 	 *         page.
 	 */
 	@GetMapping("/error")
-	public String handleError(HttpServletRequest request) {
+	public String handlerError(HttpServletRequest request) {
 		Object requestStatus = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);
 
 		if (requestStatus != null) {
