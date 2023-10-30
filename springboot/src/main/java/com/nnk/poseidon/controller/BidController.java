@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Bid;
@@ -93,7 +95,7 @@ public class BidController {
 		Bid bid = iBidService.getBidById(id);
 
 		if (bid == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			model.addAttribute("bid", bid);
 			return "bid/update";
@@ -131,8 +133,8 @@ public class BidController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/bid/update/{id}")
-	public String postBid_fromBidUpdateForm(@PathVariable("id") Integer id, @Valid Bid bid, BindingResult result) {
+	@PutMapping("/bid/update/{id}")
+	public String putBid_fromBidUpdateForm(@PathVariable("id") Integer id, @Valid Bid bid, BindingResult result) {
 		if (!result.hasErrors()) {
 			bid.setId(id);
 			iBidService.addOrUpdateBid(bid);
@@ -156,12 +158,12 @@ public class BidController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/bid/delete/{id}")
+	@RequestMapping("/bid/delete/{id}")
 	public String deleteBid_fromBidListPage(@PathVariable("id") Integer id) {
 		Integer deletedBid = iBidService.deleteBidById(id);
 
 		if (deletedBid == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/bid/list";
 		}

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Trade;
@@ -93,7 +95,7 @@ public class TradeController {
 		Trade trade = iTradeService.getTradeById(id);
 
 		if (trade == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			model.addAttribute("trade", trade);
 			return "trade/update";
@@ -133,8 +135,8 @@ public class TradeController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/trade/update/{id}")
-	public String postTrade_fromTradeUpdateForm(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
+	@PutMapping("/trade/update/{id}")
+	public String putTrade_fromTradeUpdateForm(@PathVariable("id") Integer id, @Valid Trade trade, BindingResult result) {
 		if (!result.hasErrors()) {
 			trade.setId(id);
 			iTradeService.addOrUpdateTrade(trade);
@@ -158,12 +160,12 @@ public class TradeController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/trade/delete/{id}")
+	@RequestMapping("/trade/delete/{id}")
 	public String deleteTrade_fromTradeListPage(@PathVariable("id") Integer id) {
 		Integer deletedTrade = iTradeService.deleteTradeById(id);
 
 		if (deletedTrade == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/trade/list";
 		}

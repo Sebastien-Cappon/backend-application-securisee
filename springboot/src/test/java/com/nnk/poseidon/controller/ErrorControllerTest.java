@@ -25,6 +25,16 @@ public class ErrorControllerTest {
 	@Test
 	@Order(1)
 	@WithMockUser(username = "user", roles = { "USER" })
+	public void handleError_shouldReturnOk_andDisplayError204Page() throws Exception {
+		mockMvc.perform(get("/error")
+				.requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 204))
+			.andExpect(status().isOk())
+			.andExpect(view().name("error/204"));
+	}
+
+	@Test
+	@Order(2)
+	@WithMockUser(username = "user", roles = { "USER" })
 	public void handleError_shouldReturnOk_andDisplayError400Page() throws Exception {
 		mockMvc.perform(get("/error")
 				.requestAttr(RequestDispatcher.ERROR_STATUS_CODE, 400))
@@ -33,7 +43,7 @@ public class ErrorControllerTest {
 	}
 
 	@Test
-	@Order(2)
+	@Order(3)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void handleError_shouldReturnOk_andDisplayError403Page() throws Exception {
 		mockMvc.perform(get("/error")
@@ -43,7 +53,7 @@ public class ErrorControllerTest {
 	}
 
 	@Test
-	@Order(3)
+	@Order(4)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void handleError_shouldReturnOk_andDisplayError404Page() throws Exception {
 		mockMvc.perform(get("/error")
@@ -53,7 +63,7 @@ public class ErrorControllerTest {
 	}
 
 	@Test
-	@Order(4)
+	@Order(5)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void handleError_shouldReturnOk_andDisplayError500Page() throws Exception {
 		mockMvc.perform(get("/error")
@@ -63,7 +73,7 @@ public class ErrorControllerTest {
 	}
 
 	@Test
-	@Order(5)
+	@Order(6)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void handleError_shouldReturnOk_andDisplayErrorDefaultPage() throws Exception {
 		mockMvc.perform(get("/error")

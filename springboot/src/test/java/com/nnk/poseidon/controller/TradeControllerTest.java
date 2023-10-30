@@ -3,8 +3,10 @@ package com.nnk.poseidon.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -122,7 +124,7 @@ public class TradeControllerTest {
 	@Test
 	@Order(6)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
+	public void putTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
 		when(tradeService.getTradeList())
@@ -130,7 +132,7 @@ public class TradeControllerTest {
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
 
-		mockMvc.perform(post("/trade/update/{id}", "1")
+		mockMvc.perform(put("/trade/update/{id}", "1")
 				.flashAttr("trade", trade)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -140,7 +142,7 @@ public class TradeControllerTest {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
+	public void putTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<Trade> tradeList = new ArrayList<>(Arrays.asList(trade, trade));
 
 		when(tradeService.getTradeList())
@@ -148,7 +150,7 @@ public class TradeControllerTest {
 		when(tradeService.addOrUpdateTrade(any(Trade.class)))
 			.thenReturn(trade);
 
-		mockMvc.perform(post("/trade/update/{id}", "1")
+		mockMvc.perform(put("/trade/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/update"))
@@ -159,7 +161,7 @@ public class TradeControllerTest {
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteTrade_fromTradeListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/trade/delete/{id}", "1")
+		mockMvc.perform(delete("/trade/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));

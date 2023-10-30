@@ -1,8 +1,10 @@
 package com.nnk.poseidon.integration;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +92,9 @@ public class RatingEndpointsIT {
 	@Test
 	@Order(4)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void get_ratingUpdateForm_shouldThrowInternalServerError() throws Exception {
+	public void get_ratingUpdateForm_shouldThrowNoContent() throws Exception {
 		mockMvc.perform(get("/rating/update/{id}", "9999"))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -120,8 +122,8 @@ public class RatingEndpointsIT {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRating_fromRatingUpdateForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
-		mockMvc.perform(post("/rating/update/{id}", "1")
+	public void putRating_fromRatingUpdateForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
+		mockMvc.perform(put("/rating/update/{id}", "1")
 				.flashAttr("rating", rating)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -131,8 +133,8 @@ public class RatingEndpointsIT {
 	@Test
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRating_fromRatingUpdateForm_shouldFailAndReturnOk() throws Exception {
-		mockMvc.perform(post("/rating/update/{id}", "1")
+	public void putRating_fromRatingUpdateForm_shouldFailAndReturnOk() throws Exception {
+		mockMvc.perform(put("/rating/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("rating/update"))
@@ -143,7 +145,7 @@ public class RatingEndpointsIT {
 	@Order(9)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRating_fromRatingListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/rating/delete/{id}", "1")
+		mockMvc.perform(delete("/rating/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/rating/list"));
@@ -152,9 +154,9 @@ public class RatingEndpointsIT {
 	@Test
 	@Order(10)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void deleteRating_fromRatingListPage_shouldThrowInternalServerError() throws Exception {
-		mockMvc.perform(get("/rating/delete/{id}", "9999")
+	public void deleteRating_fromRatingListPage_shouldThrowNocontent() throws Exception {
+		mockMvc.perform(delete("/rating/delete/{id}", "9999")
 				.with(csrf()))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 }

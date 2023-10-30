@@ -3,8 +3,10 @@ package com.nnk.poseidon.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -122,7 +124,7 @@ public class CurvePointControllerTest {
 	@Test
 	@Order(6)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
+	public void putCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
 
 		when(curvePointService.getCurvePointList())
@@ -130,7 +132,7 @@ public class CurvePointControllerTest {
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
 
-		mockMvc.perform(post("/curvePoint/update/{id}", "1")
+		mockMvc.perform(put("/curvePoint/update/{id}", "1")
 				.flashAttr("curvePoint", curvePoint).with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
@@ -139,7 +141,7 @@ public class CurvePointControllerTest {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
+	public void putCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<CurvePoint> curvePointList = new ArrayList<>(Arrays.asList(curvePoint, curvePoint));
 
 		when(curvePointService.getCurvePointList())
@@ -147,7 +149,7 @@ public class CurvePointControllerTest {
 		when(curvePointService.addOrUpdateCurvePoint(any(CurvePoint.class)))
 			.thenReturn(curvePoint);
 
-		mockMvc.perform(post("/curvePoint/update/{id}", "1")
+		mockMvc.perform(put("/curvePoint/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/update"))
@@ -158,7 +160,7 @@ public class CurvePointControllerTest {
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteCurvePoint_fromCurvePointListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/curvePoint/delete/{id}", "1")
+		mockMvc.perform(delete("/curvePoint/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));

@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.Rating;
@@ -93,7 +95,7 @@ public class RatingController {
 		Rating rating = iRatingService.getRatingById(id);
 
 		if (rating == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			model.addAttribute("rating", rating);
 			return "rating/update";
@@ -133,8 +135,8 @@ public class RatingController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/rating/update/{id}")
-	public String postRating_fromRatingUpdateForm(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
+	@PutMapping("/rating/update/{id}")
+	public String putRating_fromRatingUpdateForm(@PathVariable("id") Integer id, @Valid Rating rating, BindingResult result) {
 		if (!result.hasErrors()) {
 			rating.setId(id);
 			iRatingService.addOrUpdateRating(rating);
@@ -158,12 +160,12 @@ public class RatingController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/rating/delete/{id}")
+	@RequestMapping("/rating/delete/{id}")
 	public String deleteRating_fromRatingListPage(@PathVariable("id") Integer id) {
 		Integer deletedRating = iRatingService.deleteRatingById(id);
 
 		if (deletedRating == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/rating/list";
 		}

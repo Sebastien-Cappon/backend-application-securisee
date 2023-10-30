@@ -1,8 +1,10 @@
 package com.nnk.poseidon.integration;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +92,9 @@ public class CurvePointEnpointsIT {
 	@Test
 	@Order(4)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void get_curvePointUpdateForm_shouldThrowInternalServerError() throws Exception {
+	public void get_curvePointUpdateForm_shouldThrowNoContent() throws Exception {
 		mockMvc.perform(get("/curvePoint/update/{id}", "9999"))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -120,9 +122,9 @@ public class CurvePointEnpointsIT {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage()
+	public void putCurvePoint_fromCurvePointUpdateForm_shouldSuccessAndRedirectToCurvePointListPage()
 			throws Exception {
-		mockMvc.perform(post("/curvePoint/update/{id}", "1")
+		mockMvc.perform(put("/curvePoint/update/{id}", "1")
 				.flashAttr("curvePoint", curvePoint)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -132,8 +134,8 @@ public class CurvePointEnpointsIT {
 	@Test
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
-		mockMvc.perform(post("/curvePoint/update/{id}", "1")
+	public void putCurvePoint_fromCurvePointUpdateForm_shouldFailAndReturnOk() throws Exception {
+		mockMvc.perform(put("/curvePoint/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("curvePoint/update"))
@@ -144,7 +146,7 @@ public class CurvePointEnpointsIT {
 	@Order(9)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteCurvePoint_fromCurvePointListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/curvePoint/delete/{id}", "1")
+		mockMvc.perform(delete("/curvePoint/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/curvePoint/list"));
@@ -153,9 +155,9 @@ public class CurvePointEnpointsIT {
 	@Test
 	@Order(10)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void deleteCurvePoint_fromCurvePointListPage_shouldThrowInternalServerError() throws Exception {
-		mockMvc.perform(get("/curvePoint/delete/{id}", "9999")
+	public void deleteCurvePoint_fromCurvePointListPage_shouldThrowNoContent() throws Exception {
+		mockMvc.perform(delete("/curvePoint/delete/{id}", "9999")
 				.with(csrf()))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 }

@@ -1,8 +1,10 @@
 package com.nnk.poseidon.integration;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +92,9 @@ public class UserEndpointsIT {
 	@Test
 	@Order(4)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void get_UserUpdateForm_shouldThrowInternalServerError() throws Exception {
+	public void get_UserUpdateForm_shouldThrowNoContent() throws Exception {
 		mockMvc.perform(get("/user/update/{id}", "9999"))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -120,9 +122,10 @@ public class UserEndpointsIT {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void postUser_fromUserUpdateForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
-		mockMvc.perform(post("/user/update/{id}", "1")
-				.flashAttr("user", user).with(csrf()))
+	public void putUser_fromUserUpdateForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
+		mockMvc.perform(put("/user/update/{id}", "1")
+				.flashAttr("user", user)
+				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/user/list"));
 	}
@@ -130,8 +133,8 @@ public class UserEndpointsIT {
 	@Test
 	@Order(8)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void postUser_fromUserUpdateForm_shouldFailAndReturnOk() throws Exception {
-		mockMvc.perform(post("/user/update/{id}", "1")
+	public void putUser_fromUserUpdateForm_shouldFailAndReturnOk() throws Exception {
+		mockMvc.perform(put("/user/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/update"))
@@ -142,7 +145,7 @@ public class UserEndpointsIT {
 	@Order(9)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void deleteUser_fromUserListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/user/delete/{id}", "1")
+		mockMvc.perform(delete("/user/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/user/list"));
@@ -151,9 +154,9 @@ public class UserEndpointsIT {
 	@Test
 	@Order(10)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void deleteUser_fromUserListPage_shouldThrowInternalServerError() throws Exception {
-		mockMvc.perform(get("/user/delete/{id}", "9999")
+	public void deleteUser_fromUserListPage_shouldThrowNoContent() throws Exception {
+		mockMvc.perform(delete("/user/delete/{id}", "9999")
 				.with(csrf()))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 }

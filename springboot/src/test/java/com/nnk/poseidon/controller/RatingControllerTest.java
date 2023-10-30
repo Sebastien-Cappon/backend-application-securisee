@@ -3,8 +3,10 @@ package com.nnk.poseidon.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -14,10 +16,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.api.MethodOrderer.OrderAnnotation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -117,7 +119,7 @@ public class RatingControllerTest {
 	@Test
 	@Order(6)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRating_fromRatingUpdateForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
+	public void putRating_fromRatingUpdateForm_shouldSuccessAndRedirectToRatingListPage() throws Exception {
 		List<Rating> ratingList = new ArrayList<>(Arrays.asList(rating, rating));
 
 		when(ratingService.getRatingList())
@@ -125,7 +127,7 @@ public class RatingControllerTest {
 		when(ratingService.addOrUpdateRating(any(Rating.class)))
 			.thenReturn(rating);
 
-		mockMvc.perform(post("/rating/update/{id}", "1")
+		mockMvc.perform(put("/rating/update/{id}", "1")
 				.flashAttr("rating", rating)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -135,7 +137,7 @@ public class RatingControllerTest {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRating_fromRatingUpdateForm_shouldFailAndReturnOk() throws Exception {
+	public void putRating_fromRatingUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<Rating> ratingList = new ArrayList<>(Arrays.asList(rating, rating));
 
 		when(ratingService.getRatingList())
@@ -143,7 +145,7 @@ public class RatingControllerTest {
 		when(ratingService.addOrUpdateRating(any(Rating.class)))
 			.thenReturn(rating);
 
-		mockMvc.perform(post("/rating/update/{id}", "1")
+		mockMvc.perform(put("/rating/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("rating/update"))
@@ -154,7 +156,7 @@ public class RatingControllerTest {
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRating_fromRatingListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/rating/delete/{id}", "1")
+		mockMvc.perform(delete("/rating/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/rating/list"));

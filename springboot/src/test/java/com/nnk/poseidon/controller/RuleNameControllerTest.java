@@ -3,8 +3,10 @@ package com.nnk.poseidon.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -117,7 +119,7 @@ public class RuleNameControllerTest {
 	@Test
 	@Order(6)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRuleName_fromRuleNameUpdateForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
+	public void putRuleName_fromRuleNameUpdateForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
 		when(ruleNameService.getRuleNameList())
@@ -125,7 +127,7 @@ public class RuleNameControllerTest {
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
 
-		mockMvc.perform(post("/ruleName/update/{id}", "1")
+		mockMvc.perform(put("/ruleName/update/{id}", "1")
 				.flashAttr("ruleName", ruleName)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -135,7 +137,7 @@ public class RuleNameControllerTest {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRuleName_fromRuleNameUpdateForm_shouldFailAndReturnOk() throws Exception {
+	public void putRuleName_fromRuleNameUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<RuleName> ruleNameList = new ArrayList<>(Arrays.asList(ruleName, ruleName));
 
 		when(ruleNameService.getRuleNameList())
@@ -143,7 +145,7 @@ public class RuleNameControllerTest {
 		when(ruleNameService.addOrUpdateRuleName(any(RuleName.class)))
 			.thenReturn(ruleName);
 
-		mockMvc.perform(post("/ruleName/update/{id}", "1")
+		mockMvc.perform(put("/ruleName/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/update"))
@@ -154,7 +156,7 @@ public class RuleNameControllerTest {
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRuleName_fromRuleNameListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/ruleName/delete/{id}", "1")
+		mockMvc.perform(delete("/ruleName/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/ruleName/list"));

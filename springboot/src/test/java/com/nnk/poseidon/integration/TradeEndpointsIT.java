@@ -1,8 +1,10 @@
 package com.nnk.poseidon.integration;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +92,9 @@ public class TradeEndpointsIT {
 	@Test
 	@Order(4)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void get_tradeUpdateForm_shouldThrowInternalServerError() throws Exception {
+	public void get_tradeUpdateForm_shouldThrowNoContent() throws Exception {
 		mockMvc.perform(get("/trade/update/{id}", "9999"))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -120,8 +122,8 @@ public class TradeEndpointsIT {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
-		mockMvc.perform(post("/trade/update/{id}", "1")
+	public void puTrade_fromTradeUpdateForm_shouldSuccessAndRedirectToTradeListPage() throws Exception {
+		mockMvc.perform(put("/trade/update/{id}", "1")
 				.flashAttr("trade", trade)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -131,8 +133,8 @@ public class TradeEndpointsIT {
 	@Test
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
-		mockMvc.perform(post("/trade/update/{id}", "1")
+	public void putTrade_fromTradeUpdateForm_shouldFailAndReturnOk() throws Exception {
+		mockMvc.perform(put("/trade/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("trade/update"))
@@ -143,7 +145,7 @@ public class TradeEndpointsIT {
 	@Order(9)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteTrade_fromTradeListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/trade/delete/{id}", "1")
+		mockMvc.perform(delete("/trade/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/trade/list"));
@@ -152,9 +154,9 @@ public class TradeEndpointsIT {
 	@Test
 	@Order(10)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void deleteTrade_fromTradeListPage_shouldThrowInternalServerError() throws Exception {
-		mockMvc.perform(get("/trade/delete/{id}", "9999")
+	public void deleteTrade_fromTradeListPage_shouldThrowNNoContent() throws Exception {
+		mockMvc.perform(delete("/trade/delete/{id}", "9999")
 				.with(csrf()))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 }

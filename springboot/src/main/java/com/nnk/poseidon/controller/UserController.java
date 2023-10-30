@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.User;
@@ -94,7 +96,7 @@ public class UserController {
 		User user = iUserService.getUserById(id);
 
 		if (user == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			user.setPassword("");
 
@@ -139,8 +141,8 @@ public class UserController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/user/update/{id}")
-	public String postUser_fromUserUpdateForm(@PathVariable("id") Integer id, @Valid User user, BindingResult result) {
+	@PutMapping("/user/update/{id}")
+	public String putUser_fromUserUpdateForm(@PathVariable("id") Integer id, @Valid User user, BindingResult result) {
 		if (!result.hasErrors()) {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			user.setPassword(encoder.encode(user.getPassword()));
@@ -166,12 +168,12 @@ public class UserController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/user/delete/{id}")
+	@RequestMapping("/user/delete/{id}")
 	public String deleteUser_fromUserListPage(@PathVariable("id") Integer id) {
 		Integer deletedUser = iUserService.deleteUserById(id);
 
 		if (deletedUser == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/user/list";
 		}

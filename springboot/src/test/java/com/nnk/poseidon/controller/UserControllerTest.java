@@ -3,8 +3,10 @@ package com.nnk.poseidon.controller;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -117,7 +119,7 @@ public class UserControllerTest {
 	@Test
 	@Order(6)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void postUser_fromUserUpdateForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
+	public void putUser_fromUserUpdateForm_shouldSuccessAndRedirectToUserListPage() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
 		when(userService.getUserList())
@@ -125,7 +127,7 @@ public class UserControllerTest {
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
 
-		mockMvc.perform(post("/user/update/{id}", "1")
+		mockMvc.perform(put("/user/update/{id}", "1")
 				.flashAttr("user", user)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -135,7 +137,7 @@ public class UserControllerTest {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
-	public void postUser_fromUserUpdateForm_shouldFailAndReturnOk() throws Exception {
+	public void putUser_fromUserUpdateForm_shouldFailAndReturnOk() throws Exception {
 		List<User> userList = new ArrayList<>(Arrays.asList(user, user));
 
 		when(userService.getUserList())
@@ -143,7 +145,7 @@ public class UserControllerTest {
 		when(userService.addOrUpdateUser(any(User.class)))
 			.thenReturn(user);
 
-		mockMvc.perform(post("/user/update/{id}", "1")
+		mockMvc.perform(put("/user/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("user/update"))
@@ -154,7 +156,7 @@ public class UserControllerTest {
 	@Order(8)
 	@WithMockUser(username = "admin", roles = { "ADMIN" })
 	public void deleteUser_fromUserListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/user/delete/{id}", "1")
+		mockMvc.perform(delete("/user/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/user/list"));

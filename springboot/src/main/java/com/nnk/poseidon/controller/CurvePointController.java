@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.CurvePoint;
@@ -95,7 +97,7 @@ public class CurvePointController {
 		CurvePoint curvePoint = iCurvePointService.getCurvePointById(id);
 
 		if (curvePoint == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			model.addAttribute("curvePoint", curvePoint);
 			return "curvePoint/update";
@@ -137,8 +139,8 @@ public class CurvePointController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/curvePoint/update/{id}")
-	public String postCurvePoint_fromCurvePointUpdateForm(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
+	@PutMapping("/curvePoint/update/{id}")
+	public String putCurvePoint_fromCurvePointUpdateForm(@PathVariable("id") Integer id, @Valid CurvePoint curvePoint, BindingResult result) {
 		if (!result.hasErrors()) {
 			curvePoint.setId(id);
 			iCurvePointService.addOrUpdateCurvePoint(curvePoint);
@@ -163,12 +165,12 @@ public class CurvePointController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/curvePoint/delete/{id}")
+	@RequestMapping("/curvePoint/delete/{id}")
 	public String deleteCurvePoint_fromCurvePointListPage(@PathVariable("id") Integer id) {
 		Integer deletedCurvePoint = iCurvePointService.deleteCurvePointById(id);
 
 		if (deletedCurvePoint == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/curvePoint/list";
 		}

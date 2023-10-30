@@ -1,8 +1,10 @@
 package com.nnk.poseidon.integration;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -90,9 +92,9 @@ public class RuleNameEndpointsIT {
 	@Test
 	@Order(4)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void get_ruleNameUpdateForm_shouldThrowInternalServerError() throws Exception {
+	public void get_ruleNameUpdateForm_shouldThrowNoContent() throws Exception {
 		mockMvc.perform(get("/ruleName/update/{id}", "9999"))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 
 	@Test
@@ -120,8 +122,8 @@ public class RuleNameEndpointsIT {
 	@Test
 	@Order(7)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRuleName_fromRuleNameUpdateForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
-		mockMvc.perform(post("/ruleName/update/{id}", "1")
+	public void putRuleName_fromRuleNameUpdateForm_shouldSuccessAndRedirectToRuleNameListPage() throws Exception {
+		mockMvc.perform(put("/ruleName/update/{id}", "1")
 				.flashAttr("ruleName", ruleName)
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
@@ -131,8 +133,8 @@ public class RuleNameEndpointsIT {
 	@Test
 	@Order(8)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void postRuleName_fromRuleNameUpdateForm_shouldFailAndReturnOk() throws Exception {
-		mockMvc.perform(post("/ruleName/update/{id}", "1")
+	public void putRuleName_fromRuleNameUpdateForm_shouldFailAndReturnOk() throws Exception {
+		mockMvc.perform(put("/ruleName/update/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().isOk())
 			.andExpect(view().name("ruleName/update"))
@@ -143,7 +145,7 @@ public class RuleNameEndpointsIT {
 	@Order(9)
 	@WithMockUser(username = "user", roles = { "USER" })
 	public void deleteRuleName_fromRuleNameListPage_shouldReturnOk() throws Exception {
-		mockMvc.perform(get("/ruleName/delete/{id}", "1")
+		mockMvc.perform(delete("/ruleName/delete/{id}", "1")
 				.with(csrf()))
 			.andExpect(status().is3xxRedirection())
 			.andExpect(header().string("Location", "/ruleName/list"));
@@ -152,9 +154,9 @@ public class RuleNameEndpointsIT {
 	@Test
 	@Order(10)
 	@WithMockUser(username = "user", roles = { "USER" })
-	public void deleteRuleName_fromRuleNameListPage_shouldThrowInternalServerError() throws Exception {
-		mockMvc.perform(get("/ruleName/delete/{id}", "1")
+	public void deleteRuleName_fromRuleNameListPage_shouldThrowNoContent() throws Exception {
+		mockMvc.perform(delete("/ruleName/delete/{id}", "1")
 				.with(csrf()))
-			.andExpect(status().isInternalServerError());
+			.andExpect(status().isNoContent());
 	}
 }

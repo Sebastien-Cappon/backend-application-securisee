@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.server.ResponseStatusException;
 
 import com.nnk.poseidon.domain.RuleName;
@@ -94,7 +96,7 @@ public class RuleNameController {
 		RuleName ruleName = iRuleNameService.getRuleNameById(id);
 
 		if (ruleName == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			model.addAttribute("ruleName", ruleName);
 			return "ruleName/update";
@@ -135,8 +137,8 @@ public class RuleNameController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@PostMapping("/ruleName/update/{id}")
-	public String postRuleName_fromRuleNameUpdateForm(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
+	@PutMapping("/ruleName/update/{id}")
+	public String putRuleName_fromRuleNameUpdateForm(@PathVariable("id") Integer id, @Valid RuleName ruleName, BindingResult result) {
 		if (!result.hasErrors()) {
 			ruleName.setId(id);
 			iRuleNameService.addOrUpdateRuleName(ruleName);
@@ -160,12 +162,12 @@ public class RuleNameController {
 	 * 
 	 * @return A template view URI as <code>String</code>.
 	 */
-	@GetMapping("/ruleName/delete/{id}")
+	@RequestMapping("/ruleName/delete/{id}")
 	public String deleteRuleName_fromRuleNameListPage(@PathVariable("id") Integer id) {
 		Integer deletedRuleName = iRuleNameService.deleteRuleNameById(id);
 
 		if (deletedRuleName == null) {
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
+			throw new ResponseStatusException(HttpStatus.NO_CONTENT);
 		} else {
 			return "redirect:/ruleName/list";
 		}
