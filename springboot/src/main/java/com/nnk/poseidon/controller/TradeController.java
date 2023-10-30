@@ -85,7 +85,7 @@ public class TradeController {
 	 * 
 	 * @frontCall Trade update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the trade concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the trade concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -124,7 +124,7 @@ public class TradeController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/trade/update</code> URI with
+	 * A <code>PutMapping</code> method on the <code>/trade/update</code> URI with
 	 * a trade id as <code>PathVariable</code>, a valid <code>Trade</code> and a
 	 * <code>Model</code> as parameter. It calls the <code>ITradeService</code>
 	 * method <code>addOrUpdateTrade(Trade trade)</code> in order to update, in the
@@ -148,14 +148,14 @@ public class TradeController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/trade/delete</code> URI with a
+	 * A <code>RequestMapping</code> method on the <code>/trade/delete</code> URI with a
 	 * trade id as <code>PathVariable</code>. It calls the
 	 * <code>ITradeService</code> method <code>deleteTradeById(int id)</code>. Then,
 	 * it redirects to the trade list page.
 	 * 
 	 * @frontCall Trade list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the trade concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the trade concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.

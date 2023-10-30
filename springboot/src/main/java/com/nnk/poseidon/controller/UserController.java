@@ -86,7 +86,7 @@ public class UserController {
 	 * 
 	 * @frontCall User update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the user concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the user concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -130,7 +130,7 @@ public class UserController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/user/update</code> URI with a
+	 * A <code>PutMapping</code> method on the <code>/user/update</code> URI with a
 	 * user id as <code>PathVariable</code>, a valid <code>User</code> and a
 	 * <code>Model</code> as parameter. It calls the <code>IUserService</code>
 	 * method <code>addOrUpdateUser(User user)</code> in order to update, in the
@@ -156,14 +156,14 @@ public class UserController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/user/delete</code> URI with a
+	 * A <code>RequestMapping</code> method on the <code>/user/delete</code> URI with a
 	 * user id as <code>PathVariable</code>. It calls the <code>IUserService</code>
 	 * method <code>deleteUserById(int id)</code>. Then, it redirects to the user
 	 * list page.
 	 * 
 	 * @frontCall User list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the user concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the user concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.

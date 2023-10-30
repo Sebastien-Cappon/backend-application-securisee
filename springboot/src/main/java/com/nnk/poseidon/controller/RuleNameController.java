@@ -86,7 +86,7 @@ public class RuleNameController {
 	 * 
 	 * @frontCall RuleName update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the ruleName concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the ruleName concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -125,7 +125,7 @@ public class RuleNameController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/ruleName/update</code> URI
+	 * A <code>PutMapping</code> method on the <code>/ruleName/update</code> URI
 	 * with a ruleName id as <code>PathVariable</code>, a valid
 	 * <code>RuleName</code> and a <code>Model</code> as parameter. It calls the
 	 * <code>IRuleNameService</code> method
@@ -150,14 +150,14 @@ public class RuleNameController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/ruleName/delete</code> URI
+	 * A <code>RequestMapping</code> method on the <code>/ruleName/delete</code> URI
 	 * with a ruleName id as <code>PathVariable</code>. It calls the
 	 * <code>IRuleNameService</code> method <code>deleteRuleNameById(int id)</code>.
 	 * Then, it redirects to the ruleName list page.
 	 * 
 	 * @frontCall RuleName list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the ruleName concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the ruleName concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.

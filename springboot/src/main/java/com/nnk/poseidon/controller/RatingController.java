@@ -85,7 +85,7 @@ public class RatingController {
 	 * 
 	 * @frontCall Rating update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the rating concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the rating concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -124,7 +124,7 @@ public class RatingController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/rating/update</code> URI with
+	 * A <code>PutMapping</code> method on the <code>/rating/update</code> URI with
 	 * a rating id as <code>PathVariable</code>, a valid <code>Rating</code> and a
 	 * <code>Model</code> as parameter. It calls the <code>IRatingService</code>
 	 * method <code>addOrUpdateRating(Rating rating)</code> in order to update, in
@@ -148,14 +148,14 @@ public class RatingController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/rating/delete</code> URI with
+	 * A <code>RequestMapping</code> method on the <code>/rating/delete</code> URI with
 	 * a rating id as <code>PathVariable</code>. It calls the
 	 * <code>IRAtingService</code> method <code>deleteRAtingById(int id)</code>.
 	 * Then, it redirects to the rating list page.
 	 * 
 	 * @frontCall Rating list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the rating concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the rating concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.

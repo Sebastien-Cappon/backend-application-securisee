@@ -85,7 +85,7 @@ public class BidController {
 	 * 
 	 * @frontCall Bid update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the bid concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the bid concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -123,7 +123,7 @@ public class BidController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/bid/update</code> URI with a
+	 * A <code>PutMapping</code> method on the <code>/bid/update</code> URI with a
 	 * bid id as <code>PathVariable</code>, a valid <code>Bid</code> and a
 	 * <code>Model</code> as parameter. It calls the <code>IBidService</code> method
 	 * <code>addOrUpdateBid(Bid bid)</code> in order to update, in the database, the
@@ -146,14 +146,14 @@ public class BidController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/bid/delete</code> URI with a
+	 * A <code>RequestMapping</code> method on the <code>/bid/delete</code> URI with a
 	 * bid id as <code>PathVariable</code>. It calls the <code>IBidService</code>
 	 * method <code>deleteBidById(int id)</code>. Then, it redirects to the bid list
 	 * page.
 	 * 
 	 * @frontCall Bid list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the bid concerned doesn't
+	 * @errorThrown <code>NO_CONTENT</code> if the bid concerned doesn't
 	 * exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.

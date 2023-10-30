@@ -87,7 +87,7 @@ public class CurvePointController {
 	 * 
 	 * @frontCall CurvePoint update form page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the curvePoint concerned
+	 * @errorThrown <code>NO_CONTENT</code> if the curvePoint concerned
 	 * doesn't exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
@@ -127,7 +127,7 @@ public class CurvePointController {
 	}
 
 	/**
-	 * A <code>PostMapping</code> method on the <code>/curvePoint/update</code> URI
+	 * A <code>PutMapping</code> method on the <code>/curvePoint/update</code> URI
 	 * with a curvePoint id as <code>PathVariable</code>, a valid
 	 * <code>CurvePoint</code> and a <code>Model</code> as parameter. It calls the
 	 * <code>ICurvePointService</code> method
@@ -152,7 +152,7 @@ public class CurvePointController {
 	}
 
 	/**
-	 * A <code>GetMapping</code> method on the <code>/curvePoint/delete</code> URI
+	 * A <code>RequestMapping</code> method on the <code>/curvePoint/delete</code> URI
 	 * with a curvePoint id as <code>PathVariable</code>. It calls the
 	 * <code>ICurvePointService</code> method
 	 * <code>deleteCurvePointById(int id)</code>. Then, it redirects to the
@@ -160,7 +160,7 @@ public class CurvePointController {
 	 * 
 	 * @frontCall CurvePoint list page.
 	 * 
-	 * @throws <code>INTERNAL_SERVER_ERROR</code> if the curvePoint concerned
+	 * @errorThrown <code>NO_CONTENT</code> if the curvePoint concerned
 	 * doesn't exist.
 	 * 
 	 * @return A template view URI as <code>String</code>.
